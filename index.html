@@ -15,8 +15,22 @@
       --button-color: #1a73e8;
       --button-hover-color: #1557b0;
       --button-active-color: #0d47a1;
+      --surface-strong: #f1f3f4;
+      --border-color: #dadce0;
       --font-family: 'Roboto', Arial, sans-serif;
       --font-size-base: 16px;
+    }
+
+    body.dark-theme {
+      --background-color: #0f172a;
+      --container-color: #111827;
+      --text-color: #f8fafc;
+      --secondary-text-color: #cbd5e1;
+      --button-color: #60a5fa;
+      --button-hover-color: #3b82f6;
+      --button-active-color: #2563eb;
+      --surface-strong: #1f2937;
+      --border-color: #1f2937;
     }
 
     body {
@@ -53,18 +67,29 @@
       border-radius: 8px;
       border: none;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .auth-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
 
     .logo-container {
-      text-align: center;
-      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .logo {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 8px;
     }
 
     .logo-icon {
@@ -72,13 +97,71 @@
       height: 65px;
     }
 
+    .logo-text {
+      font-size: calc(var(--font-size-base) * 1.125);
+      font-weight: 700;
+      color: var(--text-color);
+      letter-spacing: -0.25px;
+    }
+
+    .theme-toggle {
+      background-color: var(--surface-strong);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      padding: 10px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--button-color);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .theme-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
     .login-title {
       font-size: calc(var(--font-size-base) * 1.75);
       font-weight: 700;
       color: var(--text-color);
-      margin: 0 0 32px 0;
-      text-align: center;
+      margin: 0 0 8px 0;
+      text-align: left;
       font-family: var(--font-family);
+    }
+
+    .variant-toggle {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 6px;
+      border-radius: 10px;
+      background-color: var(--surface-strong);
+      border: 1px solid var(--border-color);
+    }
+
+    .variant-button {
+      background: transparent;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--secondary-text-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .variant-button.active {
+      background-color: var(--container-color);
+      color: var(--text-color);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
     }
 
     .form-group {
@@ -154,6 +237,50 @@
       border-color: #5f6368;
     }
 
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-caption {
+      font-size: calc(var(--font-size-base) * 0.875);
+      color: var(--secondary-text-color);
+      margin: 0 0 4px;
+    }
+
+    .sso-container {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .sso-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 14px;
+      width: 100%;
+      background-color: var(--container-color);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 600;
+    }
+
+    .sso-button:hover {
+      border-color: var(--button-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .sso-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
     .remember-container {
       display: flex;
       align-items: center;
@@ -183,7 +310,7 @@
     .button-container {
       display: flex;
       justify-content: center;
-      margin-top: 32px;
+      margin-top: 12px;
     }
 
     .login-button,
@@ -193,12 +320,16 @@
       background-color: var(--button-color);
       color: #ffffff;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       font-size: var(--font-size-base);
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
       letter-spacing: 0.25px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .login-button:hover,
@@ -218,6 +349,15 @@
       background-color: #dadce0;
       cursor: not-allowed;
       box-shadow: none;
+    }
+
+    .button-spinner {
+      width: 16px;
+      height: 16px;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
 
     .signup-section {
@@ -290,6 +430,16 @@
       background-color: #f8d7da;
       color: #721c24;
       border: 1px solid #f5c6cb;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* Home Screen Styles */
@@ -1989,47 +2139,58 @@
  <body>
   <div class="login-wrapper">
    <div class="login-container"><!-- Login Screen -->
-    <div id="login-screen">
+    <div class="auth-header">
      <div class="logo-container">
       <div class="logo">
        <svg class="logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
-       </svg>
+       </svg><span class="logo-text">ui/auth</span>
       </div>
+     </div><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Alternar tema">
+      <span class="theme-icon" aria-hidden="true">🌙</span>
+      <span class="theme-label">Tema</span></button>
+    </div>
+    <h1 class="login-title" id="page-title">Portal de acesso</h1>
+    <div class="variant-toggle" role="tablist">
+     <button class="variant-button active" id="variant-login" data-target="login-screen" role="tab" aria-selected="true" aria-controls="login-screen">Entrar</button>
+     <button class="variant-button" id="variant-signup" data-target="signup-screen" role="tab" aria-selected="false" aria-controls="signup-screen">Criar conta</button>
+    </div>
+    <div id="login-screen">
+     <div id="login-message"></div>
+     <p class="section-caption">Opções rápidas</p>
+     <div class="sso-container">
+      <button type="button" class="sso-button" data-provider="google">
+       <svg viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h5.6c-.2 1-.9 2.3-2.1 3.1v2.6h3.4c2-1.8 3.1-4.4 3.1-7.4Z" fill="#4285F4" /><path d="M12 23c2.8 0 5.2-.9 6.9-2.4l-3.4-2.6c-.9.6-2.1 1-3.5 1a6.1 6.1 0 0 1-5.8-4.3H2.7v2.7A10 10 0 0 0 12 23Z" fill="#34A853" /><path d="M6.2 14.7a6 6 0 0 1 0-3.8V8.2H2.7a10 10 0 0 0 0 7.6l3.5-1.1Z" fill="#FBBC05" /><path d="M12 5.8c1.6 0 3 .6 4.1 1.8l3-3A10 10 0 0 0 2.7 8.2L6.2 11A6 6 0 0 1 12 5.8Z" fill="#EA4335" /></svg>Entrar com Google</button>
+      <button type="button" class="sso-button" data-provider="github">
+       <svg viewbox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.9 9.6.5.1.7-.2.7-.5v-2c-2.8.6-3.4-1.4-3.4-1.4-.4-1-1-1.3-1-1.3-.8-.5.1-.5.1-.5.9.1 1.4 1 1.4 1 .8 1.3 2.1.9 2.7.7.1-.6.3-.9.5-1.1-2.2-.2-4.5-1.1-4.5-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.8 1 .8-.2 1.7-.3 2.6-.3.9 0 1.8.1 2.6.3 2-1.3 2.8-1 2.8-1 .5 1.3.2 2.3.1 2.6.7.7 1 1.6 1 2.7 0 3.9-2.3 4.8-4.5 5 .3.2.5.7.5 1.4v2.1c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C22 6.6 17.5 2 12 2Z" /></svg>Entrar com GitHub</button>
      </div>
-     <h1 class="login-title" id="page-title">Fazer login</h1>
+     <p class="section-caption">Ou use seu e-mail</p>
      <form id="login-form">
-      <div class="form-group"><input type="text" id="username" name="username" placeholder=" " required> <label for="username" id="username-label">Usuário</label>
-      </div>
-      <div class="form-group"><input type="password" id="password" name="password" placeholder=" " required> <label for="password" id="password-label">Código</label>
+      <div class="form-stack">
+       <div class="form-group"><input type="text" id="username" name="username" placeholder=" " required> <label for="username" id="username-label">Usuário</label>
+       </div>
+       <div class="form-group"><input type="password" id="password" name="password" placeholder=" " required> <label for="password" id="password-label">Código</label>
+       </div>
       </div>
       <div class="remember-container"><input type="checkbox" id="remember" name="remember"> <label for="remember" id="remember-text">Lembre-se de mim?</label>
       </div>
-      <div class="button-container"><button type="submit" class="login-button" id="button-text">Entrar</button>
+      <div class="button-container"><button type="submit" class="login-button" id="button-text"><span class="button-label">Entrar</span></button>
       </div>
      </form>
-     <div class="signup-section">
-      <p class="signup-text" id="signup-text">Não tem uma conta?</p><button class="signup-link" id="show-signup" type="button">Criar conta</button>
-     </div>
     </div><!-- Signup Screen -->
-    <div id="signup-screen" class="hidden"><a class="back-link" id="back-to-login">← Voltar</a>
-     <div class="logo-container">
-      <div class="logo">
-       <svg class="logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
-       </svg>
-      </div>
-     </div>
-     <h1 class="login-title">Criar conta</h1>
+    <div id="signup-screen" class="hidden">
      <div id="message-container"></div>
      <form id="signup-form">
-      <div class="form-group"><input type="text" id="signup-username" name="username" placeholder=" " required> <label for="signup-username">Usuário</label>
+      <div class="form-stack">
+       <div class="form-group"><input type="text" id="signup-username" name="username" placeholder=" " required> <label for="signup-username">Usuário</label>
+       </div>
+       <div class="form-group"><input type="email" id="signup-email" name="email" placeholder=" " required> <label for="signup-email">E-mail</label>
+       </div>
+       <div class="form-group"><input type="password" id="signup-password" name="password" placeholder=" " required> <label for="signup-password">Senha</label>
+       </div>
+       <div class="form-group"><input type="password" id="signup-confirm" name="confirm" placeholder=" " required> <label for="signup-confirm">Confirmar Senha</label>
+       </div>
       </div>
-      <div class="form-group"><input type="email" id="signup-email" name="email" placeholder=" " required> <label for="signup-email">E-mail</label>
-      </div>
-      <div class="form-group"><input type="password" id="signup-password" name="password" placeholder=" " required> <label for="signup-password">Senha</label>
-      </div>
-      <div class="form-group"><input type="password" id="signup-confirm" name="confirm" placeholder=" " required> <label for="signup-confirm">Confirmar Senha</label>
-      </div>
-      <div class="button-container"><button type="submit" class="signup-button" id="signup-button-text">Criar conta</button>
+      <div class="button-container"><button type="submit" class="signup-button" id="signup-button-text"><span class="button-label">Criar conta</span></button>
       </div>
      </form>
     </div>
@@ -2506,6 +2667,21 @@
 
     initializeApp();
 
+    function setButtonLoading(button, isLoading, labelText) {
+      if (!button) return;
+
+      if (isLoading) {
+        const originalLabel = button.querySelector('.button-label')?.textContent || button.textContent.trim();
+        button.dataset.originalText = originalLabel;
+        button.disabled = true;
+        button.innerHTML = `<span class="button-spinner" aria-hidden="true"></span><span class="button-label">${labelText}</span>`;
+      } else {
+        const defaultLabel = button.dataset.originalText || button.textContent.trim();
+        button.disabled = false;
+        button.innerHTML = `<span class="button-label">${defaultLabel}</span>`;
+      }
+    }
+
     // Check if user should be remembered on page load
     (function() {
       const rememberMe = localStorage.getItem('rememberMe');
@@ -2535,61 +2711,111 @@
     })();
 
     // Screen navigation
-    document.getElementById('show-signup').addEventListener('click', () => {
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('signup-screen').classList.remove('hidden');
+    const authVariants = document.querySelectorAll('.variant-button');
+    const loginScreen = document.getElementById('login-screen');
+    const signupScreen = document.getElementById('signup-screen');
+
+    function setVariant(targetId) {
+      authVariants.forEach((button) => {
+        const isTarget = button.dataset.target === targetId;
+        button.classList.toggle('active', isTarget);
+        button.setAttribute('aria-selected', isTarget);
+      });
+
+      if (targetId === 'signup-screen') {
+        signupScreen.classList.remove('hidden');
+        loginScreen.classList.add('hidden');
+      } else {
+        signupScreen.classList.add('hidden');
+        loginScreen.classList.remove('hidden');
+      }
+
+      document.getElementById('login-message').innerHTML = '';
+      document.getElementById('message-container').innerHTML = '';
+    }
+
+    authVariants.forEach((button) => {
+      button.addEventListener('click', () => setVariant(button.dataset.target));
     });
 
-    document.getElementById('back-to-login').addEventListener('click', () => {
-      document.getElementById('signup-screen').classList.add('hidden');
-      document.getElementById('login-screen').classList.remove('hidden');
-      document.getElementById('message-container').innerHTML = '';
-      document.getElementById('signup-form').reset();
+    const themeToggle = document.getElementById('theme-toggle');
+
+    function applyTheme(theme) {
+      const isDark = theme === 'dark';
+      document.body.classList.toggle('dark-theme', isDark);
+      localStorage.setItem('ui-theme', theme);
+
+      const icon = isDark ? '☀️' : '🌙';
+      const label = isDark ? 'Tema claro' : 'Tema escuro';
+
+      if (themeToggle) {
+        themeToggle.querySelector('.theme-icon').textContent = icon;
+        themeToggle.querySelector('.theme-label').textContent = label;
+        themeToggle.setAttribute('aria-pressed', isDark);
+      }
+    }
+
+    const savedTheme = localStorage.getItem('ui-theme') || 'light';
+    applyTheme(savedTheme);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+        applyTheme(nextTheme);
+      });
+    }
+
+    document.querySelectorAll('.sso-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        const provider = button.dataset.provider;
+        const loginMessage = document.getElementById('login-message');
+        if (loginMessage) {
+          loginMessage.innerHTML = `<div class="message success">Iniciando SSO via ${provider === 'google' ? 'Google' : 'GitHub'}...</div>`;
+        }
+        setButtonLoading(document.getElementById('button-text'), true, 'Sincronizando...');
+
+        setTimeout(() => {
+          setButtonLoading(document.getElementById('button-text'), false, 'Entrar');
+        }, 1200);
+      });
     });
 
     // Login form
     document.getElementById('login-form').addEventListener('submit', (e) => {
+      if (window.__useHashedAuth) {
+        return;
+      }
+
       e.preventDefault();
-      
+
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value.trim();
       const rememberCheckbox = document.getElementById('remember');
-      const loginContainer = document.querySelector('.login-container');
+      const loginMessage = document.getElementById('login-message');
+      const loginButton = document.getElementById('button-text');
+
+      setButtonLoading(loginButton, true, 'Entrando...');
+      loginMessage.innerHTML = '';
 
       // Check if user exists in database (only check user records, not video records)
-      const userExists = allData.find(item => 
-        item.username && item.password && 
+      const userExists = allData.find(item =>
+        item.username && item.password &&
         item.username === username && item.password === password
       );
 
-      // Remove any existing error messages
-      const existingError = loginContainer.querySelector('.message.error');
-      if (existingError) {
-        existingError.remove();
-      }
-
       if (!userExists) {
-        // Show error message
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'message error';
-        errorMessage.textContent = 'Usuário ou senha inválidos!';
-        errorMessage.style.marginBottom = '16px';
-        loginContainer.insertBefore(errorMessage, document.getElementById('login-screen'));
-        
-        // Remove error message after 4 seconds
-        setTimeout(() => {
-          errorMessage.remove();
-        }, 4000);
+        loginMessage.innerHTML = '<div class="message error">Usuário ou senha inválidos!</div>';
+        setButtonLoading(loginButton, false, 'Entrar');
         return;
       }
 
       // Valid login - proceed
       currentUsername = username;
-      
+
       // Load user profile
       currentUserAvatar = userExists.userAvatar || username.charAt(0).toUpperCase();
       currentUserAvatarColor = userExists.userAvatarColor || '#1a73e8';
-      
+
       // Save remember me preference
       if (rememberCheckbox.checked) {
         localStorage.setItem('rememberMe', 'true');
@@ -2599,10 +2825,15 @@
         localStorage.removeItem('savedUsername');
       }
 
+      loginMessage.innerHTML = '<div class="message success">Login realizado com sucesso!</div>';
+
       // Smooth transition to home screen
-      document.querySelector('.login-wrapper').classList.remove('visible');
-      document.getElementById('home-screen').classList.add('visible');
-      setTimeout(() => renderVideos(), 100);
+      setTimeout(() => {
+        document.querySelector('.login-wrapper').classList.remove('visible');
+        document.getElementById('home-screen').classList.add('visible');
+        setButtonLoading(loginButton, false, 'Entrar');
+        setTimeout(() => renderVideos(), 100);
+      }, 600);
     });
 
     // Sidebar functionality
@@ -3534,6 +3765,10 @@
 
     // Signup form
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      if (window.__useHashedAuth) {
+        return;
+      }
+
       e.preventDefault();
       
       const username = document.getElementById('signup-username').value.trim();
@@ -3855,6 +4090,7 @@
   <script>
   // Custom local user storage and login/sign-up logic.
   // Utility to compute SHA-256 hash for password encryption.
+  window.__useHashedAuth = true;
   async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
@@ -3884,13 +4120,11 @@
       messageContainer.innerHTML = '<div class="message error">A senha deve ter pelo menos 6 caracteres!</div>';
       return;
     }
-    submitButton.disabled = true;
-    submitButton.textContent = 'Criando...';
+    setButtonLoading(submitButton, true, 'Criando...');
     // Prevent duplicate usernames.
     if (storedUsers.find((u) => u.username === username)) {
       messageContainer.innerHTML = '<div class="message error">Nome de usuário já existe!</div>';
-      submitButton.disabled = false;
-      submitButton.textContent = 'Criar conta';
+      setButtonLoading(submitButton, false, 'Criar conta');
       return;
     }
     // Hash the password before storing.
@@ -3917,8 +4151,7 @@
     setTimeout(() => {
       successMessage.remove();
     }, 4000);
-    submitButton.disabled = false;
-    submitButton.textContent = 'Criar conta';
+    setButtonLoading(submitButton, false, 'Criar conta');
   });
   // Override login behaviour: check hashed password against stored users.
   document.getElementById('login-form').addEventListener('submit', async function(e) {
@@ -3927,23 +4160,15 @@
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
     const rememberCheckbox = document.getElementById('remember');
-    const loginContainer = document.querySelector('.login-container');
-    // Remove existing error messages if any.
-    const existingError = loginContainer.querySelector('.message.error');
-    if (existingError) {
-      existingError.remove();
-    }
+    const loginMessage = document.getElementById('login-message');
+    const loginButton = document.getElementById('button-text');
+    loginMessage.innerHTML = '';
+    setButtonLoading(loginButton, true, 'Entrando...');
     const hashed = await hashPassword(password);
     const userExists = storedUsers.find((u) => u.username === username && u.password === hashed);
     if (!userExists) {
-      const errorMessage = document.createElement('div');
-      errorMessage.className = 'message error';
-      errorMessage.textContent = 'Usuário ou senha inválidos!';
-      errorMessage.style.marginBottom = '16px';
-      loginContainer.insertBefore(errorMessage, document.getElementById('login-screen'));
-      setTimeout(() => {
-        errorMessage.remove();
-      }, 4000);
+      loginMessage.innerHTML = '<div class="message error">Usuário ou senha inválidos!</div>';
+      setButtonLoading(loginButton, false, 'Entrar');
       return;
     }
     currentUsername = username;
@@ -3956,9 +4181,13 @@
       localStorage.removeItem('rememberMe');
       localStorage.removeItem('savedUsername');
     }
-    document.querySelector('.login-wrapper').classList.remove('visible');
-    document.getElementById('home-screen').classList.add('visible');
-    setTimeout(() => renderVideos(), 100);
+    loginMessage.innerHTML = '<div class="message success">Login realizado com sucesso!</div>';
+    setTimeout(() => {
+      document.querySelector('.login-wrapper').classList.remove('visible');
+      document.getElementById('home-screen').classList.add('visible');
+      setButtonLoading(loginButton, false, 'Entrar');
+      setTimeout(() => renderVideos(), 100);
+    }, 600);
   });
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b42feb7b5622754',t:'MTc2Njc3NzQ1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
