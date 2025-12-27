@@ -312,14 +312,15 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 56px;
+      height: 64px;
       background-color: var(--container-color);
       display: none;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      padding: 0 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
       z-index: 150;
+      gap: 16px;
     }
 
     .home-wrapper.visible .home-header {
@@ -376,8 +377,7 @@
 
     .header-center {
       flex: 1;
-      max-width: 600px;
-      margin: 0 40px;
+      max-width: 640px;
       display: flex;
       justify-content: center;
     }
@@ -387,26 +387,30 @@
       display: flex;
       align-items: center;
       position: relative;
+      background: #f7f9fc;
+      border-radius: 999px;
+      padding: 4px 8px 4px 16px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+      gap: 8px;
     }
 
     .search-input {
       flex: 1;
-      border: 1px solid #ccc;
+      border: none;
       border-radius: 40px;
       outline: none;
-      padding: 6px 48px 6px 16px;
-      height: 36px;
+      padding: 8px 8px 8px 0;
+      height: 40px;
       font-size: 14px;
-      background-color: var(--container-color);
+      background-color: transparent;
       color: var(--text-color);
       font-family: var(--font-family);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: box-shadow 0.2s ease;
       box-sizing: border-box;
     }
 
     .search-input:focus {
-      border-color: var(--button-color);
-      box-shadow: 0 1px 6px rgba(26, 115, 232, 0.3);
+      box-shadow: inset 0 0 0 1px rgba(26, 115, 232, 0.3);
     }
 
     .search-input::placeholder {
@@ -414,18 +418,17 @@
     }
 
     .search-button {
-      position: absolute;
-      right: 0;
       background: none;
       border: none;
-      padding: 0 16px;
+      padding: 8px 12px;
       cursor: pointer;
       color: var(--text-color);
       display: flex;
       align-items: center;
       justify-content: center;
       height: 32px;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      border-radius: 999px;
     }
 
     .search-button:hover {
@@ -435,8 +438,36 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       flex: 0 0 auto;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f7f9fc;
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+
+    .header-icon-button {
+      border: none;
+      background: none;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--text-color);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon-button:hover {
+      background-color: rgba(0, 0, 0, 0.06);
+      transform: translateY(-1px);
     }
 
     .create-button {
@@ -537,10 +568,14 @@
 
 
     .home-content {
-      margin-top: 56px;
-      padding: 24px;
-      height: calc(100% - 56px);
+      margin-top: 64px;
+      padding: 24px 24px 120px;
+      height: calc(100% - 64px);
       overflow-y: auto;
+      background: radial-gradient(circle at 10% 20%, rgba(26, 115, 232, 0.08), transparent 25%),
+        radial-gradient(circle at 90% 10%, rgba(244, 180, 0, 0.08), transparent 22%),
+        radial-gradient(circle at 30% 80%, rgba(15, 157, 88, 0.08), transparent 20%),
+        #fdfdfd;
     }
 
     .content-placeholder {
@@ -553,52 +588,228 @@
       font-family: var(--font-family);
     }
 
-    /* Category Chips */
-    .category-chip {
-      background-color: rgba(0, 0, 0, 0.05);
+    .hero-section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #0f1b2d, #0c3c78);
+      color: #fff;
+      padding: 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-carousel {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 100%);
+      transition: transform 0.5s ease;
+    }
+
+    .hero-slide {
+      min-height: 280px;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-media {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+      aspect-ratio: 16/9;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .hero-description {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .hero-button {
       border: none;
-      border-radius: 8px;
-      padding: 8px 16px;
+      background: #fff;
+      color: #0c3c78;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hero-button.secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .hero-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-dots {
+      display: flex;
+      gap: 8px;
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+    }
+
+    .hero-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .hero-dot.active {
+      background: #fff;
+      transform: scale(1.15);
+    }
+
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      background: #fff;
+      border: 1px solid #e6e8ec;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    }
+
+    .filters-scroller {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .category-chip {
+      background-color: #f3f5f9;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 10px 16px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-color);
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s ease;
       font-family: var(--font-family);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     .category-chip:hover {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: #e6ecf5;
+      transform: translateY(-1px);
     }
 
     .category-chip.active {
-      background-color: var(--text-color);
-      color: var(--background-color);
+      background-color: #0c3c78;
+      color: #fff;
+      border-color: #0c3c78;
+      box-shadow: 0 10px 20px rgba(12, 60, 120, 0.3);
     }
 
     /* Video Grid */
     #videos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
       padding-bottom: 24px;
     }
 
     .video-card {
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #eef0f4;
+      overflow: hidden;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .video-card:hover {
-      transform: scale(1.02);
+      transform: translateY(-4px);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.08);
+      border-color: rgba(12, 60, 120, 0.18);
     }
 
     .video-thumbnail-container {
       position: relative;
       width: 100%;
       aspect-ratio: 16/9;
-      border-radius: 12px;
       overflow: hidden;
       background-color: #000;
     }
@@ -607,6 +818,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    .video-card:hover .video-thumbnail-container img {
+      transform: scale(1.03);
     }
 
     .video-duration {
@@ -616,19 +832,20 @@
       background-color: rgba(0, 0, 0, 0.8);
       color: white;
       padding: 3px 6px;
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 12px;
       font-weight: 500;
       font-family: var(--font-family);
+      backdrop-filter: blur(6px);
     }
 
     .video-info {
-      padding: 12px 0;
+      padding: 12px 14px 16px;
     }
 
     .video-title {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-color);
       margin: 0 0 8px 0;
       font-family: var(--font-family);
@@ -648,24 +865,123 @@
 
     @media (max-width: 1200px) {
       #videos-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       }
     }
 
     @media (max-width: 768px) {
       #videos-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 16px;
+      }
+    }
+
+    /* Mini Player */
+    .mini-player {
+      position: fixed;
+      right: 24px;
+      bottom: 20px;
+      width: 360px;
+      background: #0f1b2d;
+      color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      align-items: center;
+      transform: translateY(120%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 300;
+    }
+
+    .mini-player.visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mini-thumb {
+      width: 120px;
+      height: 72px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .mini-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mini-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mini-title {
+      font-size: 15px;
+      margin: 0;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .mini-meta {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .mini-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    .mini-control {
+      border: none;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .mini-control:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      .mini-player {
+        width: calc(100% - 24px);
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
       }
     }
 
     /* Sidebar Styles */
     .sidebar {
       position: fixed;
-      top: 56px;
+      top: 64px;
       left: -240px;
       width: 240px;
-      height: calc(100% - 56px);
+      height: calc(100% - 64px);
       background-color: var(--container-color);
       box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
       transition: left 0.3s ease;
@@ -680,10 +996,10 @@
 
     .sidebar-overlay {
       position: fixed;
-      top: 56px;
+      top: 64px;
       left: 0;
       width: 100%;
-      height: calc(100% - 56px);
+      height: calc(100% - 64px);
       background-color: rgba(0, 0, 0, 0.5);
       opacity: 0;
       visibility: hidden;
@@ -2115,7 +2431,7 @@
     <div class="header-left"><button class="menu-button" aria-label="Menu">
       <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg></button>
-     <div class="header-logo">
+     <div class="header-logo" id="home-header-logo">
       <svg class="header-logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
       </svg><span class="header-logo-text">MTube</span>
      </div>
@@ -2127,6 +2443,13 @@
      </div>
     </div>
     <div class="header-right">
+     <div class="header-actions"><button class="header-icon-button" aria-label="Buscar por voz">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M12 1a4 4 0 00-4 4v6a4 4 0 108 0V5a4 4 0 00-4-4z" stroke="currentColor" stroke-width="2" /> <path d="M5 10v1a7 7 0 0014 0v-1" stroke="currentColor" stroke-width="2" stroke-linecap="round" /> <path d="M12 17v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" /> <path d="M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg></button> <button class="header-icon-button" aria-label="Abrir apps">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M4 4h4v4H4V4zM10 4h4v4h-4V4zM16 4h4v4h-4V4zM4 10h4v4H4v-4zM10 10h4v4h-4v-4zM16 10h4v4h-4v-4zM4 16h4v4H4v-4zM10 16h4v4h-4v-4zM16 16h4v4h-4v-4z" fill="currentColor" />
+       </svg></button> <button class="header-icon-button" aria-label="Abrir perfil">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" /> <path d="M4 20c1.5-3 4.5-4.5 8-4.5s6.5 1.5 8 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg></button></div>
      <div style="position: relative;"><button class="create-button" id="create-button" aria-label="Criar">
        <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
        </svg> Criar </button>
@@ -2139,14 +2462,32 @@
       </svg></button>
     </div>
    </header>
-   <main class="home-content"><!-- Categories will appear here when there are videos -->
-    <div id="categories-section" class="hidden" style="padding: 12px 0; border-bottom: 1px solid #e0e0e0; margin-bottom: 24px;">
-     <div style="display: flex; gap: 12px; overflow-x: auto; padding: 0 24px;"><button class="category-chip active" data-category="all">Todos</button> <button class="category-chip" data-category="Entretenimento">Entretenimento</button> <button class="category-chip" data-category="Filmes &amp; TV">Filmes &amp; TV</button> <button class="category-chip" data-category="Games">Games</button> <button class="category-chip" data-category="Música">Música</button> <button class="category-chip" data-category="Esportes">Esportes</button>
-     </div>
+   <main class="home-content"><!-- Hero / Carousel -->
+    <section class="hero-section" id="hero-section">
+     <div class="hero-carousel" id="hero-carousel"></div>
+     <div class="hero-dots" id="hero-dots"></div>
+    </section><!-- Filters bar -->
+    <div id="categories-section" class="hidden filters-bar">
+     <div class="filters-scroller"><button class="category-chip active" data-category="all">Todos</button> <button class="category-chip" data-category="Entretenimento">Entretenimento</button> <button class="category-chip" data-category="Filmes &amp; TV">Filmes &amp; TV</button> <button class="category-chip" data-category="Games">Games</button> <button class="category-chip" data-category="Música">Música</button> <button class="category-chip" data-category="Esportes">Esportes</button>
+     </div><button class="header-icon-button" aria-label="Atualizar feed" id="refresh-feed-button">
+      <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M3 21v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M21 13a8 8 0 01-13.66 5.66L3 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M3 11a8 8 0 0113.66-5.66L21 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></button>
     </div>
-    <div id="videos-grid" style="padding: 0 24px;"><!-- Videos will be loaded here -->
+    <div id="videos-grid"><!-- Videos will be loaded here -->
     </div>
    </main>
+   <div id="mini-player" class="mini-player">
+    <div class="mini-thumb"><img id="mini-thumb-img" src="" alt="Miniatura"></div>
+    <div class="mini-info">
+     <p class="mini-title" id="mini-title"></p>
+     <div class="mini-meta" id="mini-meta"></div>
+    </div>
+    <div class="mini-actions"><button class="mini-control" id="mini-open" aria-label="Expandir player">
+      <svg width="18" height="18" viewbox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></button> <button class="mini-control" id="mini-close" aria-label="Fechar player">
+      <svg width="18" height="18" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button></div>
+   </div>
   </div><!-- Watch Page -->
   <div id="watch-page" class="watch-page"><!-- Header duplicado para a página de visualização -->
    <header class="home-header" style="display: flex;">
@@ -2165,6 +2506,13 @@
      </div>
     </div>
     <div class="header-right">
+     <div class="header-actions"><button class="header-icon-button" aria-label="Buscar por voz">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M12 1a4 4 0 00-4 4v6a4 4 0 108 0V5a4 4 0 00-4-4z" stroke="currentColor" stroke-width="2" /> <path d="M5 10v1a7 7 0 0014 0v-1" stroke="currentColor" stroke-width="2" stroke-linecap="round" /> <path d="M12 17v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" /> <path d="M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg></button> <button class="header-icon-button" aria-label="Abrir apps">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M4 4h4v4H4V4zM10 4h4v4h-4V4zM16 4h4v4h-4V4zM4 10h4v4H4v-4zM10 10h4v4h-4v-4zM16 10h4v4h-4v-4zM4 16h4v4H4v-4zM10 16h4v4h-4v-4zM16 16h4v4h-4v-4z" fill="currentColor" />
+       </svg></button> <button class="header-icon-button" aria-label="Abrir perfil">
+       <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" /> <path d="M4 20c1.5-3 4.5-4.5 8-4.5s6.5 1.5 8 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg></button></div>
      <div style="position: relative;"><button class="create-button" id="watch-create-button" aria-label="Criar">
        <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
        </svg> Criar </button>
@@ -2323,6 +2671,10 @@
     let selectedCategory = 'all';
     let currentWatchingVideo = null;
     let userInteractions = {}; // Store likes, dislikes, subscriptions per video
+    let heroTimer = null;
+    let heroSlides = [];
+    let miniPlayerVisible = false;
+    let heroIndex = 0;
 
     // Available avatar emojis (stickers without background)
     const availableAvatars = [
@@ -2800,6 +3152,7 @@
           document.getElementById('clips-page').classList.remove('visible');
           document.getElementById('watch-page').classList.remove('visible');
           document.getElementById('home-screen').classList.add('visible');
+          handleMiniVisibility(true);
         } else if (index === 1) {
           // Clips
           openClipsPage();
@@ -2861,14 +3214,177 @@
       return `${(views / 1000000).toFixed(1)}M visualizações`;
     }
 
+    // Hero carousel rendering
+    function renderHeroCarousel(videos) {
+      const carousel = document.getElementById('hero-carousel');
+      const dots = document.getElementById('hero-dots');
+      const heroSection = document.getElementById('hero-section');
+
+      if (!carousel || !dots || !heroSection) return;
+
+      heroSlides = videos.slice(0, 5);
+
+      if (heroSlides.length === 0) {
+        heroSection.classList.add('hidden');
+        return;
+      }
+
+      heroSection.classList.remove('hidden');
+
+      carousel.style.gridTemplateColumns = `repeat(${heroSlides.length}, 100%)`;
+
+      carousel.innerHTML = heroSlides.map((video, index) => `
+        <article class="hero-slide" data-video-id="${video.__backendId}">
+          <div class="hero-media">
+            <img src="${video.videoThumbnail}" alt="${video.videoTitle}">
+          </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4.5L17 21l-5-3.5L7 21l1.5-7.5L3 9h7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+              Em destaque
+            </div>
+            <h2 class="hero-title">${video.videoTitle}</h2>
+            <p class="hero-description">${video.videoDescription || 'Conteúdo em alta para você curtir agora mesmo.'}</p>
+            <div class="hero-actions">
+              <button class="hero-button" data-video-id="${video.__backendId}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" fill="currentColor" /></svg>
+                Assistir agora
+              </button>
+              <button class="hero-button secondary" data-video-id="${video.__backendId}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                Adicionar à fila
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      dots.innerHTML = heroSlides.map((_, index) => `<button class="hero-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></button>`).join('');
+
+      heroIndex = 0;
+      setHeroSlide(heroIndex);
+      startHeroAutoplay();
+
+      const heroButtons = carousel.querySelectorAll('.hero-button');
+      heroButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const videoId = button.dataset.videoId;
+          openWatchPage(videoId);
+        });
+      });
+
+      const heroCards = carousel.querySelectorAll('.hero-slide');
+      heroCards.forEach((card, index) => {
+        card.addEventListener('click', (event) => {
+          if (event.target.closest('.hero-button')) return;
+          setHeroSlide(index);
+          openWatchPage(card.dataset.videoId);
+        });
+      });
+
+      const heroDots = dots.querySelectorAll('.hero-dot');
+      heroDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const target = Number(dot.dataset.index);
+          setHeroSlide(target);
+          heroIndex = target;
+          startHeroAutoplay();
+        });
+      });
+    }
+
+    function setHeroSlide(index) {
+      const carousel = document.getElementById('hero-carousel');
+      if (!carousel || heroSlides.length === 0) return;
+
+      heroIndex = index % heroSlides.length;
+      carousel.style.transform = `translateX(-${heroIndex * 100}%)`;
+
+      const heroDots = document.querySelectorAll('.hero-dot');
+      heroDots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === heroIndex);
+      });
+    }
+
+    function startHeroAutoplay() {
+      if (heroTimer) clearInterval(heroTimer);
+      if (heroSlides.length <= 1) return;
+
+      heroTimer = setInterval(() => {
+        heroIndex = (heroIndex + 1) % heroSlides.length;
+        setHeroSlide(heroIndex);
+      }, 5500);
+    }
+
+    // Mini player helpers
+    function updateMiniPlayer(video) {
+      const miniPlayer = document.getElementById('mini-player');
+      const thumb = document.getElementById('mini-thumb-img');
+      const title = document.getElementById('mini-title');
+      const meta = document.getElementById('mini-meta');
+
+      if (!miniPlayer || !video) return;
+
+      thumb.src = video.videoThumbnail;
+      title.textContent = video.videoTitle;
+      meta.textContent = `${video.videoAuthor} • ${formatViews(video.videoViews || 0)}`;
+    }
+
+    function showMiniPlayer(video) {
+      const miniPlayer = document.getElementById('mini-player');
+      if (!miniPlayer || !video) return;
+
+      updateMiniPlayer(video);
+      miniPlayer.classList.add('visible');
+      miniPlayerVisible = true;
+    }
+
+    function hideMiniPlayer() {
+      const miniPlayer = document.getElementById('mini-player');
+      if (!miniPlayer) return;
+      miniPlayer.classList.remove('visible');
+      miniPlayerVisible = false;
+    }
+
+    function handleMiniVisibility(forceShow = false) {
+      const homeVisible = document.getElementById('home-screen').classList.contains('visible');
+      const scroller = document.querySelector('.home-content');
+      const watchPage = document.getElementById('watch-page');
+      const watchScrolled = watchPage ? watchPage.scrollTop > 240 : false;
+      const hasVideo = Boolean(currentWatchingVideo);
+
+      if (!scroller || !hasVideo) {
+        hideMiniPlayer();
+        return;
+      }
+
+      const shouldShow = forceShow || (homeVisible && scroller.scrollTop > 240 && hasVideo) || (watchPage.classList.contains('visible') && watchScrolled && hasVideo);
+
+      if (shouldShow) {
+        showMiniPlayer(currentWatchingVideo);
+      } else if (miniPlayerVisible) {
+        hideMiniPlayer();
+      }
+    }
+
+    function goHomeWithMini() {
+      document.getElementById('watch-page').classList.remove('visible');
+      document.getElementById('home-screen').classList.add('visible');
+      handleMiniVisibility(true);
+    }
+
     // Render videos
     function renderVideos() {
       const videosGrid = document.getElementById('videos-grid');
       const categoriesSection = document.getElementById('categories-section');
-      
+
       // Filter videos (only records that have videoTitle and are not clips)
       let videos = allData.filter(item => item.videoTitle && item.videoType !== 'clip');
-      
+
+      // Render hero carousel with newest videos
+      const heroCandidates = [...videos].sort((a, b) => new Date(b.videoPublishedAt) - new Date(a.videoPublishedAt));
+      renderHeroCarousel(heroCandidates);
+
       if (videos.length === 0) {
         categoriesSection.classList.add('hidden');
         videosGrid.innerHTML = '';
@@ -2937,6 +3453,8 @@
       if (!video) return;
 
       currentWatchingVideo = video;
+
+      hideMiniPlayer();
 
       // Hide home screen, show watch page
       document.getElementById('home-screen').classList.remove('visible');
@@ -3194,14 +3712,25 @@
       });
       
       // Logo click - return to home
-      const headerLogo = document.querySelector('.header-logo');
-      headerLogo.addEventListener('click', () => {
-        document.getElementById('watch-page').classList.remove('visible');
-        document.getElementById('home-screen').classList.add('visible');
-      });
+      const headerLogo = document.getElementById('home-header-logo');
+      if (headerLogo) {
+        headerLogo.addEventListener('click', () => {
+          goHomeWithMini();
+        });
+      }
     }
 
     setupWatchPageInteractions();
+
+    const homeContent = document.querySelector('.home-content');
+    if (homeContent) {
+      homeContent.addEventListener('scroll', () => handleMiniVisibility());
+    }
+
+    const watchPageContainer = document.getElementById('watch-page');
+    if (watchPageContainer) {
+      watchPageContainer.addEventListener('scroll', () => handleMiniVisibility());
+    }
 
     // Watch page header interactions (duplicate header)
     const watchMenuButton = document.getElementById('watch-menu-button');
@@ -3209,6 +3738,9 @@
     const watchCreateButton = document.getElementById('watch-create-button');
     const watchCreateDropdown = document.getElementById('watch-create-dropdown');
     const watchUploadVideo = document.getElementById('watch-upload-video');
+    const refreshFeedButton = document.getElementById('refresh-feed-button');
+    const miniOpen = document.getElementById('mini-open');
+    const miniClose = document.getElementById('mini-close');
 
     // Menu button in watch page
     if (watchMenuButton) {
@@ -3222,8 +3754,29 @@
     // Logo click in watch page - return to home
     if (watchHeaderLogo) {
       watchHeaderLogo.addEventListener('click', () => {
-        document.getElementById('watch-page').classList.remove('visible');
-        document.getElementById('home-screen').classList.add('visible');
+        goHomeWithMini();
+      });
+    }
+
+    if (refreshFeedButton) {
+      refreshFeedButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        renderVideos();
+        handleMiniVisibility();
+      });
+    }
+
+    if (miniOpen) {
+      miniOpen.addEventListener('click', () => {
+        if (currentWatchingVideo) {
+          openWatchPage(currentWatchingVideo.__backendId);
+        }
+      });
+    }
+
+    if (miniClose) {
+      miniClose.addEventListener('click', () => {
+        hideMiniPlayer();
       });
     }
 
