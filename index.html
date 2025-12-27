@@ -36,6 +36,440 @@
       height: 100%;
     }
 
+    /* Novo fluxo de criação */
+    .creator-page {
+      background: #ffffff;
+      border: 1px solid #e0e4ec;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      margin: 32px 24px 16px;
+    }
+
+    .creator-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .creator-title small {
+      display: block;
+      color: #5f6368;
+      margin-bottom: 4px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .creator-title h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      color: #202124;
+    }
+
+    .creator-title p {
+      margin: 0;
+      color: #5f6368;
+    }
+
+    .creator-stepper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .creator-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      min-width: 200px;
+      background: linear-gradient(180deg, #f8fafc 0%, #f3f6fb 100%);
+      position: relative;
+    }
+
+    .creator-step::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .creator-step.active::after,
+    .creator-step.completed::after {
+      opacity: 1;
+    }
+
+    .creator-step.completed {
+      border-color: #1a73e8;
+      background: #e8f1fc;
+    }
+
+    .creator-step .step-index {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e0e7ff;
+      color: #1a73e8;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .creator-step.active .step-index,
+    .creator-step.completed .step-index {
+      background: #1a73e8;
+      color: #fff;
+    }
+
+    .creator-step strong {
+      display: block;
+      color: #202124;
+      margin-bottom: 2px;
+    }
+
+    .creator-step small {
+      color: #5f6368;
+    }
+
+    .creator-body {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .creator-main {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .creator-media-card {
+      border: 1px dashed #d7deeb;
+      border-radius: 16px;
+      padding: 20px;
+      background: linear-gradient(180deg, #f9fbff 0%, #f6f8fc 100%);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .media-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #e7efff;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      color: #1a73e8;
+      border: 1px solid #d9e4fb;
+      flex-shrink: 0;
+    }
+
+    .media-upload-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .media-upload-details h4 {
+      margin: 0;
+      color: #202124;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .media-upload-details p {
+      margin: 0;
+      color: #5f6368;
+      font-size: 14px;
+    }
+
+    .media-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .media-chip {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: 6px 10px;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      color: #3c4043;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .creator-form-panel {
+      border: 1px solid #e6eaf2;
+      border-radius: 14px;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .creator-form-panel h3 {
+      margin: 0 0 12px;
+      color: #202124;
+    }
+
+    .creator-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .creator-form-group label {
+      font-weight: 600;
+      color: #202124;
+      font-size: 14px;
+    }
+
+    .creator-form-group input,
+    .creator-form-group textarea,
+    .creator-form-group select {
+      padding: 12px;
+      border: 1px solid #dfe3eb;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: var(--font-family);
+      color: #202124;
+      background: #f9fbfd;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .creator-form-group textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .creator-form-group input:focus,
+    .creator-form-group textarea:focus,
+    .creator-form-group select:focus {
+      border-color: #1a73e8;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+    }
+
+    .thumbnail-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px dashed #d3dae6;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .thumbnail-preview img {
+      width: 72px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #d3dae6;
+      display: none;
+    }
+
+    .thumbnail-preview img.visible {
+      display: block;
+    }
+
+    .creator-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .creator-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .creator-button {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      font-size: 14px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .creator-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .creator-button.primary {
+      background: #1a73e8;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(26, 115, 232, 0.18);
+    }
+
+    .creator-button.secondary {
+      background: #f4f6fb;
+      color: #1a73e8;
+      border-color: #d6e2fb;
+    }
+
+    .creator-button.ghost {
+      background: #fff;
+      color: #5f6368;
+      border-color: #dfe3eb;
+    }
+
+    .creator-button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .creator-loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #5f6368;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .creator-loading.visible {
+      opacity: 1;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid #d6e1f5;
+      border-top-color: #1a73e8;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+    }
+
+    .toast {
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #202124;
+      min-width: 260px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      border: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .toast.success {
+      border-color: #9cd3a6;
+      background: #effaf3;
+    }
+
+    .toast.error {
+      border-color: #ef9a9a;
+      background: #fff1f1;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .creator-body {
+        grid-template-columns: 1fr;
+      }
+
+      .creator-media-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .media-actions {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .creator-page {
+        margin: 24px 12px;
+        padding: 18px;
+      }
+
+      .creator-step {
+        width: 100%;
+      }
+
+      .creator-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .creator-buttons {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .media-upload-details h4 {
+        font-size: 16px;
+      }
+
+      .thumbnail-preview {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
     .login-wrapper {
       width: 100%;
       max-width: 450px;
@@ -541,6 +975,140 @@
       padding: 24px;
       height: calc(100% - 56px);
       overflow-y: auto;
+      background: linear-gradient(180deg, #f6f8fb 0%, #ffffff 120%);
+    }
+
+    .hero-section {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 20%, rgba(26, 115, 232, 0.18), transparent 40%),
+        radial-gradient(circle at 80% 0%, rgba(0, 212, 255, 0.16), transparent 45%),
+        linear-gradient(120deg, #0f172a 0%, #111827 55%, #1e293b 100%);
+      color: #fff;
+      padding: 28px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+    }
+
+    .hero-carousel {
+      display: grid;
+      grid-template-columns: 2fr 1.1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-content p {
+      margin: 0 0 18px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-button {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .hero-button.primary {
+      background: linear-gradient(120deg, #1a73e8, #00d4ff);
+      box-shadow: 0 12px 28px rgba(26, 115, 232, 0.35);
+    }
+
+    .hero-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-visual {
+      position: relative;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      min-height: 200px;
+    }
+
+    .hero-slide {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      color: #e5edff;
+    }
+
+    .hero-slide.active {
+      display: flex;
+    }
+
+    .hero-slide strong {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .hero-slide small {
+      color: rgba(229, 237, 255, 0.8);
+      line-height: 1.5;
+    }
+
+    .hero-nav {
+      display: flex;
+      gap: 8px;
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+    }
+
+    .hero-nav button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .hero-nav button.active {
+      background: #fff;
+      transform: scale(1.15);
+    }
+
+    .filters-bar {
+      margin: 22px 0 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filters-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--secondary-text-color);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-size: 12px;
     }
 
     .content-placeholder {
@@ -556,11 +1124,11 @@
     /* Category Chips */
     .category-chip {
       background-color: rgba(0, 0, 0, 0.05);
-      border: none;
-      border-radius: 8px;
-      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 10px 18px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 700;
       color: var(--text-color);
       cursor: pointer;
       white-space: nowrap;
@@ -573,8 +1141,10 @@
     }
 
     .category-chip.active {
-      background-color: var(--text-color);
-      color: var(--background-color);
+      background: #1a73e8;
+      border-color: #0d47a1;
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(26, 115, 232, 0.25);
     }
 
     /* Video Grid */
@@ -587,11 +1157,17 @@
 
     .video-card {
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      border-radius: 14px;
+      padding: 6px;
+      background: #fff;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e6e9f2;
     }
 
     .video-card:hover {
-      transform: scale(1.02);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(26, 115, 232, 0.14);
     }
 
     .video-thumbnail-container {
@@ -601,6 +1177,19 @@
       border-radius: 12px;
       overflow: hidden;
       background-color: #000;
+      border-radius: 12px;
+    }
+
+    .video-card:hover .video-thumbnail-container::after {
+      content: 'Assistir';
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.55) 100%);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
     .video-thumbnail-container img {
@@ -628,7 +1217,7 @@
 
     .video-title {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 700;
       color: var(--text-color);
       margin: 0 0 8px 0;
       font-family: var(--font-family);
@@ -644,6 +1233,113 @@
       color: var(--secondary-text-color);
       font-family: var(--font-family);
       line-height: 1.4;
+    }
+
+    /* Mini Player */
+    .mini-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 200;
+      cursor: pointer;
+    }
+
+    .mini-player.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mini-player-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .mini-player-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mini-player-duration {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .mini-player-body {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: linear-gradient(180deg, #111827 0%, #0b1220 100%);
+    }
+
+    .mini-channel-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .mini-player-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mini-player-title {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #e5edff;
+    }
+
+    .mini-player-meta {
+      margin: 4px 0 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+    }
+
+    .mini-player-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .mini-player button {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .mini-player button:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
     }
 
     @media (max-width: 1200px) {
@@ -2048,59 +2744,146 @@
     </div>
    </div>
   </div><!-- Upload Video Screen -->
-  <div id="upload-screen" class="upload-screen">
+    <div id="upload-screen" class="upload-screen">
    <div class="upload-container">
     <div class="upload-header">
-     <h2>Detalhes do vídeo</h2><button class="close-upload-button" id="close-upload" aria-label="Fechar">
+     <h2>Preparar publicação</h2><button class="close-upload-button" id="close-upload" aria-label="Fechar">
       <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg></button>
     </div>
     <div class="upload-content">
-     <form id="upload-form">
-      <div class="upload-form-group"><label for="video-title">Título<span class="required-indicator">*</span></label> <input type="text" id="video-title" placeholder="Adicione um título que descreva seu vídeo" required>
-      </div>
-      <div class="upload-form-group"><label for="video-description">Descrição</label> <textarea id="video-description" placeholder="Conte aos espectadores sobre seu vídeo"></textarea>
-      </div>
-      <div class="thumbnail-section">
-       <h3>Miniatura<span class="required-indicator">*</span></h3>
-       <div id="thumbnail-preview">
-        <div class="thumbnail-placeholder" id="thumbnail-placeholder">
-         <svg width="48" height="48" viewbox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" /> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-         </svg>
-         <p>Nenhuma miniatura selecionada</p>
-        </div><img id="selected-thumbnail-preview" class="hidden" style="width: 100%; max-width: 300px; border-radius: 8px; border: 2px solid var(--button-color);" alt="Miniatura selecionada">
-       </div><button type="button" class="explore-thumbnails-button" id="explore-thumbnails-button">
-        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" style="margin-right: 8px;"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" /> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg> Explorar miniaturas </button>
-      </div>
-      <div class="video-type-section"><label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 12px;">Tipo de conteúdo<span class="required-indicator">*</span></label>
-       <div class="video-type-options">
-        <div class="video-type-option selected" id="video-type-video" data-type="video">
-         <h4>Vídeo</h4>
-         <p>Conteúdo padrão do YouTube</p>
+     <section class="creator-page" aria-label="Fluxo de publicação">
+      <div class="creator-header">
+       <div class="creator-title">
+        <small>Novo upload</small>
+        <h2>Preparar publicação</h2>
+        <p>Faça o upload, complete os detalhes e acompanhe o progresso antes de publicar.</p>
+       </div>
+       <div class="creator-stepper" id="creator-stepper">
+        <div class="creator-step active" data-step="1">
+         <div class="step-index">1</div>
+         <div>
+          <strong>Detalhes</strong><small>Título, duração e categoria</small>
+         </div>
         </div>
-        <div class="video-type-option" id="video-type-clip" data-type="clip">
-         <h4>Clip</h4>
-         <p>Vídeos curtos até 60 segundos</p>
+        <div class="creator-step" data-step="2">
+         <div class="step-index">2</div>
+         <div>
+          <strong>Miniatura</strong><small>Escolha na galeria</small>
+         </div>
+        </div>
+        <div class="creator-step" data-step="3">
+         <div class="step-index">3</div>
+         <div>
+          <strong>Publicação</strong><small>Confirme e publique</small>
+         </div>
         </div>
        </div>
       </div>
-      <div class="upload-form-group"><label for="video-category">Categoria<span class="required-indicator">*</span></label> <select id="video-category" required style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: var(--font-family); color: var(--text-color); background-color: var(--container-color);"> <option value="">Selecione uma categoria</option> <option value="Entretenimento">Entretenimento</option> <option value="Filmes &amp; TV">Filmes &amp; TV</option> <option value="Games">Games</option> <option value="Música">Música</option> <option value="Esportes">Esportes</option> </select>
-      </div>
-      <div class="upload-form-group"><label>Duração do vídeo<span class="required-indicator">*</span></label>
-       <div class="duration-input-group">
-        <div class="duration-field"><input type="number" id="duration-minutes" min="0" max="999" value="0" required> <label>Minutos</label>
-        </div><span class="duration-separator">:</span>
-        <div class="duration-field"><input type="number" id="duration-seconds" min="0" max="59" value="0" required> <label>Segundos</label>
+      <div class="creator-body">
+        <div class="creator-main">
+        <div class="creator-media-card" id="media-card">
+         <div class="media-icon">
+          <svg width="26" height="26" viewbox="0 0 24 24" fill="none" aria-hidden="true">
+           <path d="M12 5l7 7-7 7-7-7 7-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+           <path d="M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+         </div>
+         <div class="media-upload-details">
+          <h4>Envio simplificado</h4>
+          <p>Os envios são automáticos. Basta preencher os detalhes, definir a duração e escolher uma miniatura na galeria.</p>
+          <div class="media-meta">
+           <span class="media-chip">
+            <svg width="14" height="14" viewbox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            Fluxo direto
+           </span>
+           <span class="media-chip">
+            <svg width="14" height="14" viewbox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            Sem uploads manuais
+           </span>
+           <span class="media-chip">
+            <svg width="14" height="14" viewbox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5l7 7-7 7-7-7 7-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            Miniaturas na galeria
+           </span>
+          </div>
+         </div>
+        </div>
+        <div class="creator-helpers">
+         <div class="helper-card">
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14m7-7H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg><span>Etapas visíveis em qualquer tela.</span>
+         </div>
+         <div class="helper-card">
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg><span>Detalhes compactos para mobile.</span>
+         </div>
+         <div class="helper-card">
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5l7 7-7 7-7-7 7-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg><span>Miniaturas direto da galeria.</span>
+         </div>
         </div>
        </div>
+       <aside class="creator-form-panel">
+        <h3>Detalhes e miniatura</h3>
+        <form id="upload-form">
+         <div class="creator-form-group"><label for="video-title">Título</label> <input id="video-title" name="video-title" type="text" placeholder="Ex: Highlights da partida" required></div>
+         <div class="creator-form-group"><label for="video-description">Descrição</label> <textarea id="video-description" name="video-description" placeholder="Conte ao público sobre o seu vídeo"></textarea></div>
+         <div class="creator-form-group"><label for="video-category">Categoria</label> <select id="video-category" name="video-category" required>
+           <option value="" selected disabled>Selecione uma categoria</option>
+           <option value="Entretenimento">Entretenimento</option>
+           <option value="Filmes &amp; TV">Filmes &amp; TV</option>
+           <option value="Games">Games</option>
+           <option value="Música">Música</option>
+           <option value="Esportes">Esportes</option>
+          </select></div>
+         <div class="creator-form-group"><label>Tipo de conteúdo</label>
+          <div class="video-type-options">
+           <div class="video-type-option selected" id="video-type-video" data-type="video">
+            <h4>Vídeo</h4>
+            <p>Conteúdo padrão do YouTube</p>
+           </div>
+           <div class="video-type-option" id="video-type-clip" data-type="clip">
+            <h4>Clip</h4>
+            <p>Vídeos curtos até 60 segundos</p>
+           </div>
+          </div>
+         </div>
+         <div class="creator-form-group"><label>Duração do vídeo</label>
+          <div class="duration-input-group">
+           <div class="duration-field"><input type="number" id="duration-minutes" min="0" max="999" value="0" required> <label>Minutos</label>
+           </div><span class="duration-separator">:</span>
+           <div class="duration-field"><input type="number" id="duration-seconds" min="0" max="59" value="0" required> <label>Segundos</label>
+           </div>
+          </div>
+         </div>
+         <div class="creator-form-group"><label>Thumbnail</label>
+          <div class="thumbnail-preview">
+           <div class="thumbnail-placeholder" id="thumbnail-placeholder">
+            <svg width="48" height="48" viewbox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" /> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <p id="thumbnail-placeholder-text" style="margin: 0; color: #5f6368;">Escolha uma capa diretamente da galeria.</p>
+           </div><img id="selected-thumbnail-preview" class="hidden" style="width: 100%; max-width: 300px; border-radius: 8px; border: 2px solid var(--button-color);" alt="Pré-visualização da miniatura">
+           <div>
+            <button type="button" class="explore-thumbnails-button" id="explore-thumbnails-button" style="margin-top: 8px;">
+             <svg width="16" height="16" viewbox="0 0 24 24" fill="none" aria-hidden="true" style="margin-right: 6px;"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" /> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+             </svg>Escolher na galeria</button>
+           </div>
+          </div>
+         </div>
+        </form>
+       </aside>
       </div>
-     </form>
-    </div>
-    <div class="upload-actions"><button class="cancel-upload-button" id="cancel-upload">Cancelar</button> <button class="publish-button" id="publish-button" disabled>Publicar</button>
+      <div class="creator-actions">
+       <div class="creator-loading" id="creator-loading-label"><span class="spinner"></span><span id="creator-loading-text">Processando...</span></div>
+       <div class="creator-buttons">
+        <button class="creator-button ghost" type="button" id="cancel-upload">Cancelar</button>
+        <button class="creator-button secondary" type="button" id="draft-flow-button">Salvar rascunho</button>
+        <button class="creator-button primary" type="button" id="publish-button" disabled>Publicar</button>
+       </div>
+      </div>
+     </section>
+     <div class="toast-container" id="creator-toast-container"></div>
     </div>
    </div>
-  </div><!-- Home Screen -->
+  </div>
+<!-- Home Screen -->
   <div id="home-screen" class="hidden home-wrapper"><!-- Sidebar Overlay -->
    <div class="sidebar-overlay" id="sidebar-overlay"></div><!-- Sidebar -->
    <aside class="sidebar" id="sidebar"><button class="sidebar-item active">
@@ -2139,15 +2922,62 @@
       </svg></button>
     </div>
    </header>
-   <main class="home-content"><!-- Categories will appear here when there are videos -->
-    <div id="categories-section" class="hidden" style="padding: 12px 0; border-bottom: 1px solid #e0e0e0; margin-bottom: 24px;">
-     <div style="display: flex; gap: 12px; overflow-x: auto; padding: 0 24px;"><button class="category-chip active" data-category="all">Todos</button> <button class="category-chip" data-category="Entretenimento">Entretenimento</button> <button class="category-chip" data-category="Filmes &amp; TV">Filmes &amp; TV</button> <button class="category-chip" data-category="Games">Games</button> <button class="category-chip" data-category="Música">Música</button> <button class="category-chip" data-category="Esportes">Esportes</button>
+  <main class="home-content"><!-- Categories will appear here when there are videos -->
+    <section class="hero-section">
+     <div class="hero-carousel">
+      <div class="hero-content">
+       <div style="display: inline-flex; gap: 8px; padding: 6px 10px; background: rgba(255,255,255,0.12); border-radius: 999px; align-items: center; font-weight: 700; letter-spacing: 0.04em;">🔥 Em alta</div>
+       <h1>Descubra, faça upload e acompanhe suas publicações.</h1>
+       <p>Crie com confiança e navegue pelos destaques da semana com curadoria automática. Envie vídeos com um clique, escolha miniaturas e publique rapidinho.</p>
+       <div class="hero-actions"><button class="hero-button primary" id="hero-upload">Enviar vídeo</button> <button class="hero-button" id="hero-explore">Explorar agora</button>
+       </div>
+      </div>
+      <div class="hero-visual">
+       <div class="hero-slide active" data-slide="0">
+        <strong>Fluxo guiado</strong><small>Use o stepper para acompanhar upload, detalhes e revisão antes de publicar.</small>
+       </div>
+       <div class="hero-slide" data-slide="1">
+        <strong>Miniaturas rápidas</strong><small>Selecione ou troque a thumbnail direto do seletor com pré-visualização.</small>
+       </div>
+       <div class="hero-slide" data-slide="2">
+        <strong>Controle total</strong><small>Salve rascunhos, publique ou cancele com feedback imediato em toasts.</small>
+       </div>
+       <div class="hero-nav"><button class="active" data-slide-target="0"></button> <button data-slide-target="1"></button> <button data-slide-target="2"></button>
+       </div>
+      </div>
      </div>
-    </div>
-    <div id="videos-grid" style="padding: 0 24px;"><!-- Videos will be loaded here -->
-    </div>
+    </section>
+    <section class="filters-bar">
+     <div class="filters-header">
+      <svg width="18" height="18" viewbox="0 0 24 24" fill="none"><path d="M4 5h16M7 12h10M10 19h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg><span>Filtros rápidos</span>
+     </div>
+     <div id="categories-section" class="hidden" style="padding: 8px 0; border-bottom: 1px solid #e0e0e0; margin-bottom: 6px;">
+      <div style="display: flex; gap: 10px; overflow-x: auto; padding: 0 4px;"><button class="category-chip active" data-category="all">Todos</button> <button class="category-chip" data-category="Entretenimento">Entretenimento</button> <button class="category-chip" data-category="Filmes &amp; TV">Filmes &amp; TV</button> <button class="category-chip" data-category="Games">Games</button> <button class="category-chip" data-category="Música">Música</button> <button class="category-chip" data-category="Esportes">Esportes</button>
+      </div>
+     </div>
+    </section>
+    <section style="padding: 0 8px 24px;">
+     <div id="videos-grid" style="padding: 0 16px;"><!-- Videos will be loaded here -->
+     </div>
+    </section>
    </main>
   </div><!-- Watch Page -->
+  <div id="mini-player" class="mini-player">
+   <div class="mini-player-thumb">
+    <img id="mini-thumbnail" src="" alt="Miniatura do vídeo">
+    <div class="mini-player-duration" id="mini-duration"></div>
+   </div>
+   <div class="mini-player-body">
+    <div class="mini-channel-avatar" id="mini-avatar"></div>
+    <div class="mini-player-info">
+     <p class="mini-player-title" id="mini-title"></p>
+     <p class="mini-player-meta" id="mini-meta"></p>
+    </div>
+    <div class="mini-player-actions">
+     <button id="mini-close" aria-label="Fechar mini player">✕</button>
+    </div>
+   </div>
+  </div>
   <div id="watch-page" class="watch-page"><!-- Header duplicado para a página de visualização -->
    <header class="home-header" style="display: flex;">
     <div class="header-left"><button class="menu-button" id="watch-menu-button" aria-label="Menu">
@@ -2322,7 +3152,57 @@
     let currentUserAvatarColor = '#1a73e8';
     let selectedCategory = 'all';
     let currentWatchingVideo = null;
+    let heroInterval = null;
     let userInteractions = {}; // Store likes, dislikes, subscriptions per video
+
+    const LOCAL_VIDEOS_KEY = 'local_videos_cache';
+
+    function loadLocalVideos() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(LOCAL_VIDEOS_KEY) || '[]');
+        if (!Array.isArray(stored) || stored.length === 0) return;
+
+        const existingIds = new Set(allData.map(item => item.__backendId));
+        const newEntries = stored.filter(item => item?.__backendId && !existingIds.has(item.__backendId));
+
+        if (newEntries.length > 0) {
+          allData = [...allData, ...newEntries];
+          renderVideos();
+        }
+      } catch (error) {
+        console.error('Erro ao carregar vídeos locais', error);
+      }
+    }
+
+    function persistLocalVideo(video) {
+      try {
+        const stored = JSON.parse(localStorage.getItem(LOCAL_VIDEOS_KEY) || '[]');
+        const filtered = Array.isArray(stored) ? stored.filter(item => item.__backendId !== video.__backendId) : [];
+        filtered.push(video);
+        localStorage.setItem(LOCAL_VIDEOS_KEY, JSON.stringify(filtered));
+      } catch (error) {
+        console.error('Erro ao salvar vídeo localmente', error);
+      }
+    }
+
+    async function persistVideo(newVideo) {
+      if (window.dataSdk?.create) {
+        try {
+          const result = await window.dataSdk.create(newVideo);
+          if (result?.isOk) {
+            return {
+              ...newVideo,
+              __backendId: result.data?.__backendId || result.data?.id || newVideo.__backendId
+            };
+          }
+        } catch (error) {
+          console.error('Erro ao salvar via data SDK', error);
+        }
+      }
+
+      persistLocalVideo(newVideo);
+      return newVideo;
+    }
 
     // Available avatar emojis (stickers without background)
     const availableAvatars = [
@@ -2350,14 +3230,27 @@
     const dataHandler = {
       onDataChanged(data) {
         allData = data;
+        loadLocalVideos();
         renderVideos();
       }
     };
 
     async function initializeApp() {
-      const initResult = await window.dataSdk.init(dataHandler);
-      if (!initResult.isOk) {
-        console.error("Failed to initialize data SDK");
+      try {
+        if (window.dataSdk?.init) {
+          const initResult = await window.dataSdk.init(dataHandler);
+          if (initResult.isOk) {
+            loadLocalVideos();
+          } else {
+            console.error("Failed to initialize data SDK");
+            loadLocalVideos();
+          }
+        } else {
+          loadLocalVideos();
+        }
+      } catch (error) {
+        console.error("Failed to initialize data SDK", error);
+        loadLocalVideos();
       }
     }
 
@@ -2800,8 +3693,12 @@
           document.getElementById('clips-page').classList.remove('visible');
           document.getElementById('watch-page').classList.remove('visible');
           document.getElementById('home-screen').classList.add('visible');
+          if (currentWatchingVideo) {
+            showMiniPlayer(currentWatchingVideo);
+          }
         } else if (index === 1) {
           // Clips
+          hideMiniPlayer();
           openClipsPage();
         }
       });
@@ -2918,14 +3815,27 @@
         card.addEventListener('click', async () => {
           const videoId = card.dataset.videoId;
           const video = allData.find(item => item.__backendId === videoId);
-          
+
           if (video) {
             // Increment views
             const updatedVideo = { ...video, videoViews: (video.videoViews || 0) + 1 };
-            await window.dataSdk.update(updatedVideo);
-            
-            // Open watch page
-            openWatchPage(videoId);
+            try {
+              if (window.dataSdk?.update) {
+                await window.dataSdk.update(updatedVideo);
+              } else {
+                persistLocalVideo(updatedVideo);
+              }
+            } catch (err) {
+              console.error('Erro ao atualizar visualizações', err);
+              persistLocalVideo(updatedVideo);
+            }
+
+            const index = allData.findIndex(item => item.__backendId === videoId);
+            if (index !== -1) {
+              allData[index] = updatedVideo;
+            }
+
+            renderVideos();
           }
         });
       });
@@ -2937,6 +3847,8 @@
       if (!video) return;
 
       currentWatchingVideo = video;
+
+      hideMiniPlayer();
 
       // Hide home screen, show watch page
       document.getElementById('home-screen').classList.remove('visible');
@@ -3198,10 +4110,24 @@
       headerLogo.addEventListener('click', () => {
         document.getElementById('watch-page').classList.remove('visible');
         document.getElementById('home-screen').classList.add('visible');
+        if (currentWatchingVideo) {
+          showMiniPlayer(currentWatchingVideo);
+        }
       });
     }
 
     setupWatchPageInteractions();
+
+    const watchPageEl = document.getElementById('watch-page');
+    if (watchPageEl) {
+      watchPageEl.addEventListener('scroll', () => {
+        if (watchPageEl.classList.contains('visible') && watchPageEl.scrollTop > 220) {
+          showMiniPlayer(currentWatchingVideo);
+        } else {
+          hideMiniPlayer();
+        }
+      });
+    }
 
     // Watch page header interactions (duplicate header)
     const watchMenuButton = document.getElementById('watch-menu-button');
@@ -3224,6 +4150,9 @@
       watchHeaderLogo.addEventListener('click', () => {
         document.getElementById('watch-page').classList.remove('visible');
         document.getElementById('home-screen').classList.add('visible');
+        if (currentWatchingVideo) {
+          showMiniPlayer(currentWatchingVideo);
+        }
       });
     }
 
@@ -3255,6 +4184,91 @@
     const createDropdown = document.getElementById('create-dropdown');
     const uploadScreen = document.getElementById('upload-screen');
 
+    // Hero carousel interactions
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    const heroDots = document.querySelectorAll('.hero-nav button');
+    const heroUpload = document.getElementById('hero-upload');
+    const heroExplore = document.getElementById('hero-explore');
+    const categoriesSection = document.getElementById('categories-section');
+    const miniPlayer = document.getElementById('mini-player');
+    const miniThumbnail = document.getElementById('mini-thumbnail');
+    const miniDuration = document.getElementById('mini-duration');
+    const miniAvatar = document.getElementById('mini-avatar');
+    const miniTitle = document.getElementById('mini-title');
+    const miniMeta = document.getElementById('mini-meta');
+    const miniClose = document.getElementById('mini-close');
+
+    function setHeroSlide(index) {
+      if (heroSlides.length === 0) return;
+      heroSlides.forEach(slide => slide.classList.remove('active'));
+      heroDots.forEach(dot => dot.classList.remove('active'));
+
+      const targetIndex = index % heroSlides.length;
+      heroSlides[targetIndex].classList.add('active');
+      if (heroDots[targetIndex]) {
+        heroDots[targetIndex].classList.add('active');
+      }
+      heroInterval && clearTimeout(heroInterval);
+      heroInterval = setTimeout(() => setHeroSlide(targetIndex + 1), 6000);
+    }
+
+    heroDots.forEach((dot, idx) => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setHeroSlide(idx);
+      });
+    });
+
+    setHeroSlide(0);
+
+    if (heroUpload && uploadScreen) {
+      heroUpload.addEventListener('click', () => {
+        uploadScreen.classList.add('visible');
+      });
+    }
+
+    if (heroExplore && categoriesSection) {
+      heroExplore.addEventListener('click', () => {
+        categoriesSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
+
+    function hideMiniPlayer() {
+      miniPlayer?.classList.remove('visible');
+    }
+
+    function showMiniPlayer(video) {
+      if (!miniPlayer || !video) return;
+
+      const authorAvatar = video.videoAuthorAvatar || video.videoAuthor?.charAt(0).toUpperCase() || '?';
+      const authorAvatarColor = video.videoAuthorAvatarColor || '#1a73e8';
+
+      miniThumbnail.src = video.videoThumbnail || '';
+      miniDuration.textContent = formatDuration(video.videoDuration || 0);
+      miniAvatar.textContent = authorAvatar;
+      miniAvatar.style.background = authorAvatarColor;
+      miniTitle.textContent = video.videoTitle || 'Assistindo agora';
+      miniMeta.textContent = `${video.videoAuthor || 'Canal'} • ${formatViews(video.videoViews || 0)}`;
+
+      miniPlayer.classList.add('visible');
+    }
+
+    if (miniPlayer) {
+      miniPlayer.addEventListener('click', (e) => {
+        if (e.target === miniClose) return;
+        if (currentWatchingVideo) {
+          openWatchPage(currentWatchingVideo.__backendId);
+        }
+      });
+    }
+
+    if (miniClose) {
+      miniClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hideMiniPlayer();
+      });
+    }
+
     if (createButton && createDropdown) {
       createButton.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -3279,7 +4293,6 @@
     }
 
     // Upload screen functionality
-    let selectedThumbnail = null;
     let selectedThumbnailUrl = null;
     let selectedVideoType = 'video';
 
@@ -3328,7 +4341,6 @@
             item.classList.remove('selected');
           });
           thumbnailItem.classList.add('selected');
-          selectedThumbnail = seed;
           selectedThumbnailUrl = imgUrl;
           
           // Update preview
@@ -3337,10 +4349,15 @@
           preview.src = imgUrl;
           preview.classList.remove('hidden');
           placeholder.classList.add('hidden');
-          
+          window.selectedThumbnailUrl = imgUrl;
+
           // Close modal
           document.getElementById('thumbnail-modal').classList.remove('visible');
-          
+
+          if (window.creatorFlow) {
+            window.creatorFlow.setStep(2);
+          }
+
           validateForm();
         });
         
@@ -3432,8 +4449,11 @@
       const seconds = parseInt(durationSeconds.value) || 0;
       const totalSeconds = minutes * 60 + seconds;
       const publishButton = document.getElementById('publish-button');
+      const thumbnailUrl = window.selectedThumbnailUrl || selectedThumbnailUrl;
 
-      const isValid = title && selectedThumbnail && totalSeconds > 0 && category;
+      selectedThumbnailUrl = thumbnailUrl;
+
+      const isValid = title && thumbnailUrl && totalSeconds > 0 && category;
       publishButton.disabled = !isValid;
     }
 
@@ -3453,16 +4473,19 @@
     function closeUploadScreen() {
       uploadScreen.classList.remove('visible');
       document.getElementById('upload-form').reset();
-      selectedThumbnail = null;
       selectedThumbnailUrl = null;
       selectedVideoType = 'video';
-      
+
+      if (window.creatorFlow) {
+        window.creatorFlow.reset();
+      }
+
       // Reset thumbnail preview
       const preview = document.getElementById('selected-thumbnail-preview');
       const placeholder = document.getElementById('thumbnail-placeholder');
       preview.classList.add('hidden');
       placeholder.classList.remove('hidden');
-      
+
       document.querySelectorAll('.thumbnail-item').forEach(item => {
         item.classList.remove('selected');
       });
@@ -3492,14 +4515,17 @@
         const minutes = parseInt(durationMinutes.value) || 0;
         const seconds = parseInt(durationSeconds.value) || 0;
         const totalSeconds = minutes * 60 + seconds;
+        const thumbnailUrl = window.selectedThumbnailUrl || selectedThumbnailUrl;
 
-        publishButton.disabled = true;
-        publishButton.textContent = 'Publicando...';
+        const localBackendId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : `vid-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
         const newVideo = {
+          __backendId: localBackendId,
           videoTitle: title,
           videoDescription: description,
-          videoThumbnail: selectedThumbnailUrl,
+          videoThumbnail: thumbnailUrl,
           videoDuration: totalSeconds,
           videoType: selectedVideoType,
           videoCategory: category,
@@ -3510,24 +4536,45 @@
           videoPublishedAt: new Date().toISOString()
         };
 
-        const result = await window.dataSdk.create(newVideo);
+        try {
+          if (window.creatorFlow) {
+            window.creatorFlow.setStep(3);
+            window.creatorFlow.setLoading(true, 'Publicando...');
+          } else {
+            publishButton.disabled = true;
+            publishButton.textContent = 'Publicando...';
+          }
 
-        if (result.isOk) {
+          const savedVideo = await persistVideo(newVideo);
+          allData = [...allData, savedVideo];
+          renderVideos();
           closeUploadScreen();
-          publishButton.textContent = 'Publicar';
-        } else {
-          publishButton.disabled = false;
-          publishButton.textContent = 'Publicar';
+          if (window.creatorFlow) {
+            window.creatorFlow.showToast('Vídeo publicado com sucesso!', 'success');
+          }
+        } catch (error) {
+          console.error(error);
           const uploadContent = document.querySelector('.upload-content');
           const errorMessage = document.createElement('div');
           errorMessage.className = 'message error';
           errorMessage.textContent = 'Erro ao publicar vídeo. Tente novamente.';
           errorMessage.style.marginBottom = '16px';
           uploadContent.insertBefore(errorMessage, uploadContent.firstChild);
-          
+
           setTimeout(() => {
             errorMessage.remove();
           }, 4000);
+
+          if (window.creatorFlow) {
+            window.creatorFlow.showToast('Erro ao publicar vídeo. Tente novamente.', 'error');
+          }
+        } finally {
+          if (window.creatorFlow) {
+            window.creatorFlow.setLoading(false);
+          } else {
+            publishButton.disabled = false;
+            publishButton.textContent = 'Publicar';
+          }
         }
       });
     }
@@ -3851,6 +4898,86 @@
         clipCommentSend.disabled = true;
       });
     }
+  </script>
+  <script>
+    // Fluxo de criação com stepper, seletor, botões e toasts
+    document.addEventListener('DOMContentLoaded', () => {
+      const stepperSteps = Array.from(document.querySelectorAll('#creator-stepper .creator-step'));
+      const form = document.getElementById('upload-form');
+      const thumbnailPreviewImg = document.getElementById('selected-thumbnail-preview');
+      const thumbnailPlaceholder = document.getElementById('thumbnail-placeholder');
+      const thumbnailPlaceholderText = document.getElementById('thumbnail-placeholder-text');
+      const draftButton = document.getElementById('draft-flow-button');
+      const publishButton = document.getElementById('publish-button');
+      const cancelButton = document.getElementById('cancel-upload');
+      const loadingLabel = document.getElementById('creator-loading-label');
+      const loadingText = document.getElementById('creator-loading-text');
+      const toastContainer = document.getElementById('creator-toast-container');
+
+      if (!form) return;
+
+      const setStep = (step) => {
+        stepperSteps.forEach((item) => {
+          const stepNumber = Number(item.dataset.step);
+          item.classList.toggle('active', stepNumber === step);
+          item.classList.toggle('completed', stepNumber < step);
+        });
+      };
+
+      const showToast = (message, type = 'success') => {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${message}</span>`;
+        toastContainer.appendChild(toast);
+        setTimeout(() => toast.remove(), 3800);
+      };
+
+      const setLoading = (isLoading, text = 'Processando...') => {
+        [draftButton, publishButton, cancelButton].forEach((btn) => {
+          if (btn) btn.disabled = isLoading;
+        });
+        if (loadingLabel) loadingLabel.classList.toggle('visible', isLoading);
+        if (loadingText) loadingText.textContent = text;
+      };
+
+      const resetForm = () => {
+        if (form) form.reset();
+        if (thumbnailPreviewImg) {
+          thumbnailPreviewImg.src = '';
+          thumbnailPreviewImg.classList.add('hidden');
+        }
+        if (thumbnailPlaceholder) thumbnailPlaceholder.classList.remove('hidden');
+        if (thumbnailPlaceholderText) thumbnailPlaceholderText.textContent = 'Escolha uma capa diretamente da galeria.';
+        window.selectedThumbnailUrl = null;
+        setStep(1);
+        setLoading(false);
+      };
+
+      if (draftButton) {
+        draftButton.addEventListener('click', () => {
+          setLoading(true, 'Salvando rascunho...');
+          setStep(1);
+          setTimeout(() => {
+            setLoading(false);
+            showToast('Rascunho salvo com sucesso.', 'success');
+          }, 1400);
+        });
+      }
+
+      window.creatorFlow = {
+        setStep,
+        showToast,
+        setLoading,
+        reset: resetForm,
+      };
+
+      if (cancelButton) {
+        cancelButton.addEventListener('click', () => {
+          resetForm();
+          showToast('Fluxo cancelado e limpo.', 'success');
+        });
+      }
+    });
   </script>
   <script>
   // Custom local user storage and login/sign-up logic.
