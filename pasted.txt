@@ -1,0 +1,3965 @@
+<!doctype html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <style>
+    :root {
+      --background-color: #ffffff;
+      --container-color: #ffffff;
+      --text-color: #202124;
+      --secondary-text-color: #5f6368;
+      --button-color: #1a73e8;
+      --button-hover-color: #1557b0;
+      --button-active-color: #0d47a1;
+      --font-family: 'Roboto', Arial, sans-serif;
+      --font-size-base: 16px;
+    }
+
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background-color: var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+      height: 100%;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 450px;
+      padding: 20px;
+      display: none;
+    }
+
+    .login-wrapper.visible {
+      display: block;
+    }
+
+    .login-container {
+      background-color: var(--container-color);
+      padding: 48px 40px;
+      border-radius: 8px;
+      border: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .logo-icon {
+      width: 90px;
+      height: 65px;
+    }
+
+    .login-title {
+      font-size: calc(var(--font-size-base) * 1.75);
+      font-weight: 700;
+      color: var(--text-color);
+      margin: 0 0 32px 0;
+      text-align: center;
+      font-family: var(--font-family);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .form-group label {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: var(--font-size-base);
+      font-weight: 400;
+      color: var(--secondary-text-color);
+      pointer-events: none;
+      transition: all 0.2s ease;
+      background-color: var(--container-color);
+      padding: 0 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 13px 15px;
+      font-size: var(--font-size-base);
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      background-color: var(--container-color);
+      color: var(--text-color);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="text"]:not(:placeholder-shown),
+    input[type="email"]:not(:placeholder-shown),
+    input[type="password"]:not(:placeholder-shown) {
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--button-color);
+      border-width: 2px;
+      padding: 12px 14px;
+    }
+
+    input[type="text"]:focus ~ label,
+    input[type="email"]:focus ~ label,
+    input[type="password"]:focus ~ label,
+    input[type="text"]:not(:placeholder-shown) ~ label,
+    input[type="email"]:not(:placeholder-shown) ~ label,
+    input[type="password"]:not(:placeholder-shown) ~ label {
+      top: 0;
+      font-size: calc(var(--font-size-base) * 0.75);
+      color: var(--button-color);
+    }
+
+    input[type="text"]:not(:focus):not(:placeholder-shown) ~ label,
+    input[type="email"]:not(:focus):not(:placeholder-shown) ~ label,
+    input[type="password"]:not(:focus):not(:placeholder-shown) ~ label {
+      color: var(--secondary-text-color);
+    }
+
+    input[type="text"]:hover,
+    input[type="email"]:hover,
+    input[type="password"]:hover {
+      border-color: #5f6368;
+    }
+
+    .remember-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      accent-color: var(--button-color);
+      flex-shrink: 0;
+    }
+
+    .remember-container label {
+      font-size: calc(var(--font-size-base) * 0.875);
+      color: var(--secondary-text-color);
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    .login-button,
+    .signup-button {
+      width: 100%;
+      padding: 14px 24px;
+      background-color: var(--button-color);
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.25px;
+    }
+
+    .login-button:hover,
+    .signup-button:hover {
+      background-color: var(--button-hover-color);
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    }
+
+    .login-button:active,
+    .signup-button:active {
+      background-color: var(--button-active-color);
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3);
+    }
+
+    .login-button:disabled,
+    .signup-button:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .signup-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #dadce0;
+      text-align: center;
+    }
+
+    .signup-text {
+      font-size: calc(var(--font-size-base) * 0.875);
+      color: var(--secondary-text-color);
+      margin-bottom: 16px;
+    }
+
+    .signup-link {
+      width: 100%;
+      padding: 12px 24px;
+      background-color: transparent;
+      color: var(--button-color);
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: calc(var(--font-size-base) * 0.875);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.25px;
+    }
+
+    .signup-link:hover {
+      background-color: #f8f9fa;
+      border-color: #5f6368;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--button-color);
+      text-decoration: none;
+      font-size: calc(var(--font-size-base) * 0.875);
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--button-hover-color);
+      text-decoration: underline;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: calc(var(--font-size-base) * 0.875);
+      text-align: center;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Home Screen Styles */
+    .home-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--background-color);
+      display: none;
+    }
+
+    .home-wrapper.visible {
+      display: block;
+    }
+
+    .home-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background-color: var(--container-color);
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      z-index: 150;
+    }
+
+    .home-wrapper.visible .home-header {
+      display: flex;
+    }
+
+    .watch-page.visible ~ .home-wrapper .home-header {
+      display: flex;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 0 0 auto;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    .menu-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .header-logo-icon {
+      width: 50px;
+      height: 36px;
+    }
+
+    .header-logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-color);
+      font-family: var(--font-family);
+      letter-spacing: -0.5px;
+    }
+
+    .header-center {
+      flex: 1;
+      max-width: 600px;
+      margin: 0 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .search-input {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 40px;
+      outline: none;
+      padding: 6px 48px 6px 16px;
+      height: 36px;
+      font-size: 14px;
+      background-color: var(--container-color);
+      color: var(--text-color);
+      font-family: var(--font-family);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .search-input:focus {
+      border-color: var(--button-color);
+      box-shadow: 0 1px 6px rgba(26, 115, 232, 0.3);
+    }
+
+    .search-input::placeholder {
+      color: var(--secondary-text-color);
+    }
+
+    .search-button {
+      position: absolute;
+      right: 0;
+      background: none;
+      border: none;
+      padding: 0 16px;
+      cursor: pointer;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      transition: color 0.2s ease;
+    }
+
+    .search-button:hover {
+      color: var(--button-color);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .create-button {
+      position: relative;
+      background: none;
+      border: 1px solid #ccc;
+      padding: 8px 14px;
+      cursor: pointer;
+      color: var(--button-color);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--font-family);
+      transition: all 0.2s ease;
+    }
+
+    .create-button:hover {
+      background-color: rgba(26, 115, 232, 0.1);
+      border-color: var(--button-color);
+    }
+
+    .create-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background-color: var(--container-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s ease;
+      z-index: 1000;
+    }
+
+    .create-dropdown.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .create-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      color: var(--text-color);
+      font-size: 14px;
+      font-family: var(--font-family);
+      transition: background-color 0.2s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .create-dropdown-item:first-child {
+      border-radius: 8px 8px 0 0;
+    }
+
+    .create-dropdown-item:last-child {
+      border-radius: 0 0 8px 8px;
+    }
+
+    .create-dropdown-item:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .create-dropdown-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .notification-button {
+      position: relative;
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    .notification-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+
+
+    .home-content {
+      margin-top: 56px;
+      padding: 24px;
+      height: calc(100% - 56px);
+      overflow-y: auto;
+    }
+
+    .content-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--secondary-text-color);
+      font-size: 24px;
+      font-family: var(--font-family);
+    }
+
+    /* Category Chips */
+    .category-chip {
+      background-color: rgba(0, 0, 0, 0.05);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+    }
+
+    .category-chip:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .category-chip.active {
+      background-color: var(--text-color);
+      color: var(--background-color);
+    }
+
+    /* Video Grid */
+    #videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      padding-bottom: 24px;
+    }
+
+    .video-card {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .video-card:hover {
+      transform: scale(1.02);
+    }
+
+    .video-thumbnail-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    .video-thumbnail-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-family);
+    }
+
+    .video-info {
+      padding: 12px 0;
+    }
+
+    .video-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-color);
+      margin: 0 0 8px 0;
+      font-family: var(--font-family);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.4;
+    }
+
+    .video-metadata {
+      font-size: 14px;
+      color: var(--secondary-text-color);
+      font-family: var(--font-family);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1200px) {
+      #videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      #videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+      }
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 56px;
+      left: -240px;
+      width: 240px;
+      height: calc(100% - 56px);
+      background-color: var(--container-color);
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease;
+      z-index: 99;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 56px);
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 98;
+    }
+
+    .sidebar-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 12px 24px;
+      cursor: pointer;
+      color: var(--text-color);
+      font-size: 14px;
+      font-weight: 400;
+      font-family: var(--font-family);
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .sidebar-item:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-item.active {
+      background-color: rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+    }
+
+    .sidebar-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    /* Upload Screen Styles */
+    .upload-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .upload-screen.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Thumbnail Modal - Higher z-index */
+    #thumbnail-modal {
+      z-index: 1000;
+    }
+
+    .upload-container {
+      background-color: var(--container-color);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 900px;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .upload-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background-color: var(--container-color);
+      z-index: 10;
+    }
+
+    .upload-header h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-family: var(--font-family);
+    }
+
+    .close-upload-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      color: var(--text-color);
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    .close-upload-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .upload-content {
+      padding: 24px;
+    }
+
+    .upload-form-group {
+      margin-bottom: 24px;
+    }
+
+    .upload-form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 8px;
+      font-family: var(--font-family);
+    }
+
+    .required-indicator {
+      color: #d32f2f;
+      margin-left: 4px;
+    }
+
+    .upload-form-group input[type="text"],
+    .upload-form-group textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+      color: var(--text-color);
+      background-color: var(--container-color);
+      transition: border-color 0.2s ease;
+    }
+
+    .upload-form-group input[type="text"]:focus,
+    .upload-form-group textarea:focus {
+      outline: none;
+      border-color: var(--button-color);
+    }
+
+    .upload-form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .thumbnail-section {
+      margin-bottom: 24px;
+    }
+
+    .thumbnail-section h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+      margin: 0 0 12px 0;
+      font-family: var(--font-family);
+    }
+
+    #thumbnail-preview {
+      margin-bottom: 12px;
+    }
+
+    .thumbnail-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      color: var(--secondary-text-color);
+    }
+
+    .thumbnail-placeholder svg {
+      color: var(--secondary-text-color);
+      margin-bottom: 12px;
+    }
+
+    .thumbnail-placeholder p {
+      margin: 0;
+      font-size: 14px;
+      font-family: var(--font-family);
+    }
+
+    .explore-thumbnails-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 24px;
+      background-color: transparent;
+      color: var(--button-color);
+      border: 1px solid var(--button-color);
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+    }
+
+    .explore-thumbnails-button:hover {
+      background-color: rgba(26, 115, 232, 0.1);
+    }
+
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .thumbnail-item {
+      position: relative;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 3px solid transparent;
+      transition: all 0.2s ease;
+      aspect-ratio: 16/9;
+    }
+
+    .thumbnail-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .thumbnail-item.selected {
+      border-color: var(--button-color);
+      box-shadow: 0 0 0 2px var(--button-color);
+    }
+
+    .thumbnail-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumbnail-checkmark {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      background-color: var(--button-color);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .thumbnail-item.selected .thumbnail-checkmark {
+      display: flex;
+    }
+
+    .video-type-section {
+      margin-bottom: 24px;
+    }
+
+    .video-type-options {
+      display: flex;
+      gap: 16px;
+    }
+
+    .video-type-option {
+      flex: 1;
+      padding: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .video-type-option:hover:not(.disabled) {
+      border-color: var(--button-color);
+      background-color: rgba(26, 115, 232, 0.05);
+    }
+
+    .video-type-option.selected {
+      border-color: var(--button-color);
+      background-color: rgba(26, 115, 232, 0.1);
+    }
+
+    .video-type-option.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: #f5f5f5;
+    }
+
+    .video-type-option h4 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-family: var(--font-family);
+    }
+
+    .video-type-option p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--secondary-text-color);
+      font-family: var(--font-family);
+    }
+
+    .duration-input-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .duration-field {
+      flex: 1;
+    }
+
+    .duration-field input {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+      color: var(--text-color);
+      background-color: var(--container-color);
+      text-align: center;
+    }
+
+    .duration-field label {
+      display: block;
+      font-size: 12px;
+      color: var(--secondary-text-color);
+      text-align: center;
+      margin-top: 4px;
+      font-family: var(--font-family);
+    }
+
+    .duration-separator {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--text-color);
+      margin-top: -20px;
+    }
+
+    .upload-actions {
+      padding: 16px 24px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      position: sticky;
+      bottom: 0;
+      background-color: var(--container-color);
+    }
+
+    .cancel-upload-button,
+    .publish-button {
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+      border: none;
+    }
+
+    .cancel-upload-button {
+      background-color: transparent;
+      color: var(--text-color);
+      border: 1px solid #ccc;
+    }
+
+    .cancel-upload-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .publish-button {
+      background-color: var(--button-color);
+      color: white;
+    }
+
+    .publish-button:hover {
+      background-color: var(--button-hover-color);
+    }
+
+    .publish-button:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .header-center {
+        margin: 0 16px;
+      }
+
+      .header-logo-text {
+        font-size: 18px;
+      }
+
+      .thumbnail-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .video-type-options {
+        flex-direction: column;
+      }
+
+      .duration-input-group {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Watch Page Styles */
+    .watch-page {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 56px);
+      background-color: var(--background-color);
+      overflow-y: auto;
+      display: none;
+      z-index: 50;
+    }
+
+    .watch-page.visible {
+      display: block;
+    }
+
+    .watch-container {
+      display: flex;
+      gap: 24px;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .watch-primary {
+      flex: 1;
+      max-width: calc(100% - 424px);
+    }
+
+    .watch-secondary {
+      width: 400px;
+      flex-shrink: 0;
+    }
+
+    .video-player {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background-color: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .video-player img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-unavailable-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      padding: 20px;
+      font-family: var(--font-family);
+    }
+
+    .video-progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .video-progress-fill {
+      height: 100%;
+      width: 100%;
+      background-color: #ff0000;
+    }
+
+    .watch-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-color);
+      margin: 12px 0;
+      font-family: var(--font-family);
+      line-height: 1.4;
+    }
+
+    .watch-info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 16px;
+    }
+
+    .channel-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .channel-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--button-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      flex-shrink: 0;
+      font-family: var(--font-family);
+    }
+
+    .channel-details {
+      flex: 1;
+    }
+
+    .channel-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-family: var(--font-family);
+    }
+
+    .channel-subs {
+      font-size: 12px;
+      color: var(--secondary-text-color);
+      font-family: var(--font-family);
+    }
+
+    .subscribe-button {
+      background-color: var(--text-color);
+      color: var(--background-color);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+      margin-left: 12px;
+    }
+
+    .subscribe-button:hover {
+      background-color: var(--secondary-text-color);
+    }
+
+    .subscribe-button.subscribed {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--text-color);
+    }
+
+    .subscribe-button.subscribed:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .video-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: rgba(0, 0, 0, 0.05);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+    }
+
+    .action-button:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .action-button.liked {
+      background-color: rgba(26, 115, 232, 0.1);
+      color: var(--button-color);
+    }
+
+    .action-button.disliked {
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .action-divider {
+      width: 1px;
+      height: 24px;
+      background-color: #e0e0e0;
+      margin: 0 4px;
+    }
+
+    .watch-description {
+      background-color: rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .watch-description-header {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 8px;
+      font-family: var(--font-family);
+    }
+
+    .watch-description-text {
+      font-size: 14px;
+      color: var(--text-color);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .comments-section {
+      margin-top: 24px;
+    }
+
+    .comments-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .comments-count {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-family: var(--font-family);
+    }
+
+    .comment-input-container {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--button-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      flex-shrink: 0;
+      font-family: var(--font-family);
+    }
+
+    .comment-input-wrapper {
+      flex: 1;
+    }
+
+    .comment-input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text-color);
+      background-color: transparent;
+      font-family: var(--font-family);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .comment-input:focus {
+      border-bottom-color: var(--text-color);
+    }
+
+    .comment-input::placeholder {
+      color: var(--secondary-text-color);
+    }
+
+    .comment-actions {
+      display: none;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    .comment-input:focus ~ .comment-actions,
+    .comment-input:not(:placeholder-shown) ~ .comment-actions {
+      display: flex;
+    }
+
+    .comment-cancel,
+    .comment-submit {
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-family);
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .comment-cancel {
+      background-color: transparent;
+      color: var(--text-color);
+    }
+
+    .comment-cancel:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .comment-submit {
+      background-color: var(--button-color);
+      color: white;
+    }
+
+    .comment-submit:hover {
+      background-color: var(--button-hover-color);
+    }
+
+    .comment-submit:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 1024px) {
+      .watch-container {
+        flex-direction: column;
+      }
+
+      .watch-primary {
+        max-width: 100%;
+      }
+
+      .watch-secondary {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .watch-container {
+        padding: 12px;
+      }
+
+      .watch-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .video-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .action-button {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+
+    /* Suggested Videos Styles */
+    .suggested-videos {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .suggested-video-card {
+      display: flex;
+      gap: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .suggested-video-card:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .suggested-thumbnail-container {
+      position: relative;
+      width: 168px;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #000;
+      flex-shrink: 0;
+    }
+
+    .suggested-thumbnail-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .suggested-duration {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 500;
+      font-family: var(--font-family);
+    }
+
+    .suggested-video-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .suggested-video-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+      font-family: var(--font-family);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .suggested-video-metadata {
+      font-size: 12px;
+      color: var(--secondary-text-color);
+      font-family: var(--font-family);
+      line-height: 1.4;
+    }
+
+    /* Clips Page Styles */
+    .clips-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: none;
+      z-index: 200;
+    }
+
+    .clips-wrapper.visible {
+      display: block;
+    }
+
+    .clips-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 250;
+    }
+
+    .clips-container {
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+
+    .clips-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+
+    .clip-item {
+      width: 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clip-video-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clip-thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .clip-unavailable-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      padding: 20px;
+      font-family: var(--font-family);
+    }
+
+    .clip-sidebar {
+      position: absolute;
+      right: 12px;
+      bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .clip-action-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.2s ease;
+    }
+
+    .clip-action-button:hover {
+      transform: scale(1.1);
+    }
+
+    .clip-action-button.active {
+      color: #ff0050;
+    }
+
+    .clip-action-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+    }
+
+    .clip-action-button.active .clip-action-icon {
+      background-color: rgba(255, 0, 80, 0.3);
+    }
+
+    .clip-action-count {
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-family);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .clip-info {
+      position: absolute;
+      left: 12px;
+      bottom: 80px;
+      right: 80px;
+      z-index: 10;
+      color: white;
+    }
+
+    .clip-author-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .clip-author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--button-color), #ff0050);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      flex-shrink: 0;
+      font-family: var(--font-family);
+      border: 2px solid white;
+    }
+
+    .clip-author-info {
+      flex: 1;
+    }
+
+    .clip-author-name {
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--font-family);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .clip-subscribe-button {
+      background-color: white;
+      color: var(--text-color);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+    }
+
+    .clip-subscribe-button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .clip-subscribe-button.subscribed {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid white;
+    }
+
+    .clip-title {
+      font-size: 15px;
+      font-weight: 400;
+      font-family: var(--font-family);
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .clip-navigation-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+      font-family: var(--font-family);
+      z-index: 5;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-10px);
+      }
+    }
+
+    .clip-comment-modal {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--container-color);
+      border-radius: 16px 16px 0 0;
+      max-height: 70%;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .clip-comment-modal.visible {
+      transform: translateY(0);
+    }
+
+    .clip-comment-header {
+      padding: 16px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .clip-comment-header h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-color);
+      font-family: var(--font-family);
+    }
+
+    .clip-comment-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      color: var(--text-color);
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    .clip-comment-close:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .clip-comment-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .clip-comment-input-section {
+      padding: 12px 16px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+      background-color: var(--container-color);
+    }
+
+    .clip-comment-avatar-small {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--button-color), #ff0050);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      font-family: var(--font-family);
+    }
+
+    .clip-comment-input {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+      color: var(--text-color);
+      background-color: rgba(0, 0, 0, 0.05);
+      font-family: var(--font-family);
+      outline: none;
+    }
+
+    .clip-comment-input:focus {
+      border-color: var(--button-color);
+      background-color: var(--container-color);
+    }
+
+    .clip-comment-send {
+      background-color: var(--button-color);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+    }
+
+    .clip-comment-send:hover {
+      background-color: var(--button-hover-color);
+    }
+
+    .clip-comment-send:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+
+    .avatar-color-option:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .avatar-color-option.selected {
+      border-color: white !important;
+      box-shadow: 0 0 0 2px var(--button-color);
+    }
+
+    .avatar-item {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .avatar-item:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .avatar-item.selected {
+      border-color: var(--button-color);
+      box-shadow: 0 0 0 2px var(--button-color);
+    }
+
+    @media (max-width: 768px) {
+      .clip-video-container {
+        max-width: 100%;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="login-wrapper">
+   <div class="login-container"><!-- Login Screen -->
+    <div id="login-screen">
+     <div class="logo-container">
+      <div class="logo">
+       <svg class="logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
+       </svg>
+      </div>
+     </div>
+     <h1 class="login-title" id="page-title">Fazer login</h1>
+     <form id="login-form">
+      <div class="form-group"><input type="text" id="username" name="username" placeholder=" " required> <label for="username" id="username-label">Usuário</label>
+      </div>
+      <div class="form-group"><input type="password" id="password" name="password" placeholder=" " required> <label for="password" id="password-label">Código</label>
+      </div>
+      <div class="remember-container"><input type="checkbox" id="remember" name="remember"> <label for="remember" id="remember-text">Lembre-se de mim?</label>
+      </div>
+      <div class="button-container"><button type="submit" class="login-button" id="button-text">Entrar</button>
+      </div>
+     </form>
+     <div class="signup-section">
+      <p class="signup-text" id="signup-text">Não tem uma conta?</p><button class="signup-link" id="show-signup" type="button">Criar conta</button>
+     </div>
+    </div><!-- Signup Screen -->
+    <div id="signup-screen" class="hidden"><a class="back-link" id="back-to-login">← Voltar</a>
+     <div class="logo-container">
+      <div class="logo">
+       <svg class="logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
+       </svg>
+      </div>
+     </div>
+     <h1 class="login-title">Criar conta</h1>
+     <div id="message-container"></div>
+     <form id="signup-form">
+      <div class="form-group"><input type="text" id="signup-username" name="username" placeholder=" " required> <label for="signup-username">Usuário</label>
+      </div>
+      <div class="form-group"><input type="email" id="signup-email" name="email" placeholder=" " required> <label for="signup-email">E-mail</label>
+      </div>
+      <div class="form-group"><input type="password" id="signup-password" name="password" placeholder=" " required> <label for="signup-password">Senha</label>
+      </div>
+      <div class="form-group"><input type="password" id="signup-confirm" name="confirm" placeholder=" " required> <label for="signup-confirm">Confirmar Senha</label>
+      </div>
+      <div class="button-container"><button type="submit" class="signup-button" id="signup-button-text">Criar conta</button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- Thumbnail Explorer Modal -->
+  <div id="thumbnail-modal" class="upload-screen">
+   <div class="upload-container" style="max-width: 1000px;">
+    <div class="upload-header">
+     <h2>Selecionar miniatura</h2><button class="close-upload-button" id="close-thumbnail-modal" aria-label="Fechar">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+    </div>
+    <div class="upload-content">
+     <div class="thumbnail-grid" id="thumbnail-grid"><!-- Thumbnails will be loaded here -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Upload Video Screen -->
+  <div id="upload-screen" class="upload-screen">
+   <div class="upload-container">
+    <div class="upload-header">
+     <h2>Detalhes do vídeo</h2><button class="close-upload-button" id="close-upload" aria-label="Fechar">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+    </div>
+    <div class="upload-content">
+     <form id="upload-form">
+      <div class="upload-form-group"><label for="video-title">Título<span class="required-indicator">*</span></label> <input type="text" id="video-title" placeholder="Adicione um título que descreva seu vídeo" required>
+      </div>
+      <div class="upload-form-group"><label for="video-description">Descrição</label> <textarea id="video-description" placeholder="Conte aos espectadores sobre seu vídeo"></textarea>
+      </div>
+      <div class="thumbnail-section">
+       <h3>Miniatura<span class="required-indicator">*</span></h3>
+       <div id="thumbnail-preview">
+        <div class="thumbnail-placeholder" id="thumbnail-placeholder">
+         <svg width="48" height="48" viewbox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" /> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+         </svg>
+         <p>Nenhuma miniatura selecionada</p>
+        </div><img id="selected-thumbnail-preview" class="hidden" style="width: 100%; max-width: 300px; border-radius: 8px; border: 2px solid var(--button-color);" alt="Miniatura selecionada">
+       </div><button type="button" class="explore-thumbnails-button" id="explore-thumbnails-button">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" style="margin-right: 8px;"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" /> <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg> Explorar miniaturas </button>
+      </div>
+      <div class="video-type-section"><label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 12px;">Tipo de conteúdo<span class="required-indicator">*</span></label>
+       <div class="video-type-options">
+        <div class="video-type-option selected" id="video-type-video" data-type="video">
+         <h4>Vídeo</h4>
+         <p>Conteúdo padrão do YouTube</p>
+        </div>
+        <div class="video-type-option" id="video-type-clip" data-type="clip">
+         <h4>Clip</h4>
+         <p>Vídeos curtos até 60 segundos</p>
+        </div>
+       </div>
+      </div>
+      <div class="upload-form-group"><label for="video-category">Categoria<span class="required-indicator">*</span></label> <select id="video-category" required style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: var(--font-family); color: var(--text-color); background-color: var(--container-color);"> <option value="">Selecione uma categoria</option> <option value="Entretenimento">Entretenimento</option> <option value="Filmes &amp; TV">Filmes &amp; TV</option> <option value="Games">Games</option> <option value="Música">Música</option> <option value="Esportes">Esportes</option> </select>
+      </div>
+      <div class="upload-form-group"><label>Duração do vídeo<span class="required-indicator">*</span></label>
+       <div class="duration-input-group">
+        <div class="duration-field"><input type="number" id="duration-minutes" min="0" max="999" value="0" required> <label>Minutos</label>
+        </div><span class="duration-separator">:</span>
+        <div class="duration-field"><input type="number" id="duration-seconds" min="0" max="59" value="0" required> <label>Segundos</label>
+        </div>
+       </div>
+      </div>
+     </form>
+    </div>
+    <div class="upload-actions"><button class="cancel-upload-button" id="cancel-upload">Cancelar</button> <button class="publish-button" id="publish-button" disabled>Publicar</button>
+    </div>
+   </div>
+  </div><!-- Home Screen -->
+  <div id="home-screen" class="hidden home-wrapper"><!-- Sidebar Overlay -->
+   <div class="sidebar-overlay" id="sidebar-overlay"></div><!-- Sidebar -->
+   <aside class="sidebar" id="sidebar"><button class="sidebar-item active">
+     <svg class="sidebar-icon" viewbox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M9 22V12h6v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg> Início </button> <button class="sidebar-item">
+     <svg class="sidebar-icon" viewbox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2" /> <path d="M9 4v16M15 4v16M4 9h16M4 15h16" stroke="currentColor" stroke-width="2" />
+     </svg> Clips </button> <button class="sidebar-item" id="settings-button">
+     <svg class="sidebar-icon" viewbox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" /> <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+     </svg> Configurações </button>
+   </aside>
+   <header class="home-header">
+    <div class="header-left"><button class="menu-button" aria-label="Menu">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+     <div class="header-logo">
+      <svg class="header-logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
+      </svg><span class="header-logo-text">MTube</span>
+     </div>
+    </div>
+    <div class="header-center">
+     <div class="search-container"><input type="text" class="search-input" placeholder="Pesquisar"> <button class="search-button" aria-label="Pesquisar">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" /> <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg></button>
+     </div>
+    </div>
+    <div class="header-right">
+     <div style="position: relative;"><button class="create-button" id="create-button" aria-label="Criar">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg> Criar </button>
+      <div class="create-dropdown" id="create-dropdown"><button class="create-dropdown-item">
+        <svg class="create-dropdown-icon" viewbox="0 0 24 24" fill="none"><path d="M23 7l-7 5 7 5V7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <rect x="1" y="5" width="15" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+        </svg> Enviar vídeo </button>
+      </div>
+     </div><button class="notification-button" aria-label="Notificações">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></button>
+    </div>
+   </header>
+   <main class="home-content"><!-- Categories will appear here when there are videos -->
+    <div id="categories-section" class="hidden" style="padding: 12px 0; border-bottom: 1px solid #e0e0e0; margin-bottom: 24px;">
+     <div style="display: flex; gap: 12px; overflow-x: auto; padding: 0 24px;"><button class="category-chip active" data-category="all">Todos</button> <button class="category-chip" data-category="Entretenimento">Entretenimento</button> <button class="category-chip" data-category="Filmes &amp; TV">Filmes &amp; TV</button> <button class="category-chip" data-category="Games">Games</button> <button class="category-chip" data-category="Música">Música</button> <button class="category-chip" data-category="Esportes">Esportes</button>
+     </div>
+    </div>
+    <div id="videos-grid" style="padding: 0 24px;"><!-- Videos will be loaded here -->
+    </div>
+   </main>
+  </div><!-- Watch Page -->
+  <div id="watch-page" class="watch-page"><!-- Header duplicado para a página de visualização -->
+   <header class="home-header" style="display: flex;">
+    <div class="header-left"><button class="menu-button" id="watch-menu-button" aria-label="Menu">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+     <div class="header-logo" id="watch-header-logo">
+      <svg class="header-logo-icon" viewbox="0 0 90 65" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="86" height="61" rx="8" fill="#1a73e8" /> <rect x="32" y="20" width="8" height="25" rx="2" fill="white" /> <rect x="50" y="20" width="8" height="25" rx="2" fill="white" />
+      </svg><span class="header-logo-text">MTube</span>
+     </div>
+    </div>
+    <div class="header-center">
+     <div class="search-container"><input type="text" class="search-input" placeholder="Pesquisar"> <button class="search-button" aria-label="Pesquisar">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" /> <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg></button>
+     </div>
+    </div>
+    <div class="header-right">
+     <div style="position: relative;"><button class="create-button" id="watch-create-button" aria-label="Criar">
+       <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+       </svg> Criar </button>
+      <div class="create-dropdown" id="watch-create-dropdown"><button class="create-dropdown-item" id="watch-upload-video">
+        <svg class="create-dropdown-icon" viewbox="0 0 24 24" fill="none"><path d="M23 7l-7 5 7 5V7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <rect x="1" y="5" width="15" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+        </svg> Enviar vídeo </button>
+      </div>
+     </div><button class="notification-button" aria-label="Notificações">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></button>
+    </div>
+   </header>
+   <div class="watch-container">
+    <div class="watch-primary"><!-- Video Player -->
+     <div class="video-player"><img id="watch-thumbnail" src="" alt="Video thumbnail">
+      <div class="video-unavailable-overlay">
+       O vídeo não está disponível por causa de limitações do site
+      </div>
+      <div class="video-progress-bar">
+       <div class="video-progress-fill"></div>
+      </div>
+     </div><!-- Video Title -->
+     <h1 class="watch-title" id="watch-title"></h1><!-- Video Info Row -->
+     <div class="watch-info-row">
+      <div class="channel-info">
+       <div class="channel-avatar" id="watch-channel-avatar"></div>
+       <div class="channel-details">
+        <div class="channel-name" id="watch-channel-name"></div>
+        <div class="channel-subs" id="watch-channel-subs">
+         0 inscritos
+        </div>
+       </div><button class="subscribe-button" id="watch-subscribe-button">Inscrever-se</button>
+      </div>
+      <div class="video-actions"><button class="action-button" id="watch-like-button">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M7 22V11M2 13v6a2 2 0 0 0 2 2h3M7 11L14 3a2 2 0 0 1 2 2v4h5a2 2 0 0 1 2 2l-2 8a2 2 0 0 1-2 2H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg><span id="watch-like-count">0</span> </button>
+       <div class="action-divider"></div><button class="action-button" id="watch-dislike-button">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" style="transform: rotate(180deg);"><path d="M7 22V11M2 13v6a2 2 0 0 0 2 2h3M7 11L14 3a2 2 0 0 1 2 2v4h5a2 2 0 0 1 2 2l-2 8a2 2 0 0 1-2 2H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg><span id="watch-dislike-count">0</span> </button>
+      </div>
+     </div><!-- Video Description -->
+     <div class="watch-description">
+      <div class="watch-description-header" id="watch-description-header"></div>
+      <div class="watch-description-text" id="watch-description-text"></div>
+     </div><!-- Comments Section -->
+     <div class="comments-section">
+      <div class="comments-header">
+       <div class="comments-count">
+        0 comentários
+       </div>
+      </div>
+      <div class="comment-input-container">
+       <div class="comment-avatar" id="watch-comment-avatar"></div>
+       <div class="comment-input-wrapper"><input type="text" class="comment-input" placeholder="Adicione um comentário..." id="watch-comment-input">
+        <div class="comment-actions"><button class="comment-cancel" id="watch-comment-cancel">Cancelar</button> <button class="comment-submit" id="watch-comment-submit" disabled>Comentar</button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Suggested Videos Section -->
+    <div class="watch-secondary">
+     <div class="suggested-videos" id="suggested-videos"><!-- Suggested videos will be loaded here -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Settings Modal -->
+  <div id="settings-modal" class="upload-screen">
+   <div class="upload-container" style="max-width: 600px;">
+    <div class="upload-header">
+     <h2>Configurações de Perfil</h2><button class="close-upload-button" id="close-settings" aria-label="Fechar">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+    </div>
+    <div class="upload-content">
+     <div class="upload-form-group"><label>Avatar do Perfil</label>
+      <div style="display: flex; align-items: center; gap: 20px; margin-top: 12px;">
+       <div id="current-avatar-display" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; border: 3px solid var(--button-color);"></div><button type="button" class="explore-thumbnails-button" id="change-avatar-button" style="flex: 1;"> Alterar Avatar </button>
+      </div>
+     </div>
+     <div class="upload-form-group" style="margin-top: 32px;"><label>Cor de Fundo do Avatar</label>
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px;"><button type="button" class="avatar-color-option" data-color="#1a73e8" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #1a73e8; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#d32f2f" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #d32f2f; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#388e3c" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #388e3c; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#f57c00" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #f57c00; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#7b1fa2" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #7b1fa2; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#c2185b" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #c2185b; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#0097a7" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #0097a7; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#5d4037" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #5d4037; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#455a64" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #455a64; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button> <button type="button" class="avatar-color-option" data-color="#000000" style="width: 100%; aspect-ratio: 1; border-radius: 12px; background-color: #000000; border: 3px solid transparent; cursor: pointer; transition: all 0.2s;"></button>
+      </div>
+     </div>
+    </div>
+    <div class="upload-actions"><button class="cancel-upload-button" id="cancel-settings">Cancelar</button> <button class="publish-button" id="save-settings">Salvar Alterações</button>
+    </div>
+   </div>
+  </div><!-- Avatar Selector Modal -->
+  <div id="avatar-modal" class="upload-screen">
+   <div class="upload-container" style="max-width: 800px;">
+    <div class="upload-header">
+     <h2>Escolher Avatar</h2><button class="close-upload-button" id="close-avatar-modal" aria-label="Fechar">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+    </div>
+    <div class="upload-content">
+     <div id="avatar-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; max-height: 500px; overflow-y: auto; padding: 4px;"><!-- Avatars will be loaded here -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Clips Page -->
+  <div id="clips-page" class="clips-wrapper">
+   <header class="clips-header"><button class="menu-button" id="clips-back-button" aria-label="Voltar" style="color: white;">
+     <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg></button>
+    <div style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px;">
+     <svg width="36" height="36" viewbox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><defs>
+       <lineargradient id="clipsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+       </lineargradient>
+      </defs> <rect x="4" y="4" width="40" height="40" rx="10" fill="url(#clipsGradient)" /> <rect x="16" y="14" width="5" height="20" rx="1.5" fill="white" /> <rect x="27" y="14" width="5" height="20" rx="1.5" fill="white" />
+     </svg><span style="color: white; font-size: 20px; font-weight: 700; font-family: var(--font-family); letter-spacing: 0.5px;">Clips</span>
+    </div><button class="menu-button" aria-label="Buscar" style="color: white; margin-left: auto;">
+     <svg width="24" height="24" viewbox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" /> <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+     </svg></button>
+   </header>
+   <div class="clips-container" id="clips-container"><!-- Clips will be loaded here -->
+   </div><!-- Comment Modal -->
+   <div class="clip-comment-modal" id="clip-comment-modal">
+    <div class="clip-comment-header">
+     <h3>Comentários</h3><button class="clip-comment-close" id="clip-comment-close" aria-label="Fechar">
+      <svg width="20" height="20" viewbox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg></button>
+    </div>
+    <div class="clip-comment-list" id="clip-comment-list">
+     <p style="text-align: center; color: var(--secondary-text-color); padding: 40px 20px;">Ainda não há comentários</p>
+    </div>
+    <div class="clip-comment-input-section">
+     <div class="clip-comment-avatar-small" id="clip-comment-avatar"></div><input type="text" class="clip-comment-input" placeholder="Adicionar comentário..." id="clip-comment-input"> <button class="clip-comment-send" id="clip-comment-send" disabled>Enviar</button>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#ffffff",
+      container_color: "#ffffff",
+      text_color: "#202124",
+      secondary_text_color: "#5f6368",
+      button_color: "#1a73e8",
+      font_family: "Roboto",
+      font_size: 16,
+      page_title: "Fazer login",
+      username_label: "Usuário",
+      password_label: "Código",
+      remember_text: "Lembre-se de mim?",
+      button_text: "Entrar",
+      signup_text: "Não tem uma conta?",
+      signup_button: "Criar conta"
+    };
+
+    let allData = [];
+    let currentUsername = null;
+    let currentUserAvatar = null;
+    let currentUserAvatarColor = '#1a73e8';
+    let selectedCategory = 'all';
+    let currentWatchingVideo = null;
+    let userInteractions = {}; // Store likes, dislikes, subscriptions per video
+
+    // Available avatar emojis (stickers without background)
+    const availableAvatars = [
+      '😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃',
+      '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😙',
+      '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔',
+      '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥',
+      '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮',
+      '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓',
+      '🧐', '😕', '😟', '🙁', '☹️', '😮', '😯', '😲', '😳', '🥺',
+      '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣',
+      '😞', '😓', '😩', '😫', '🥱', '😤', '😡', '😠', '🤬', '👿',
+      '💀', '☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖',
+      '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🐶',
+      '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁',
+      '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🐦', '🐤', '🦆', '🦉',
+      '🦇', '🐺', '🐗', '🐴', '🦄', '🐝', '🐛', '🦋', '🐌', '🐞',
+      '🐜', '🦟', '🦗', '🕷️', '🦂', '🐢', '🐍', '🦎', '🦖', '🦕',
+      '🐙', '🦑', '🦐', '🦞', '🦀', '🐡', '🐠', '🐟', '🐬', '🐳',
+      '🐋', '🦈', '🐊', '🐅', '🐆', '🦓', '🦍', '🦧', '🐘', '🦛',
+      '🦏', '🐪', '🐫', '🦒', '🦘', '🐃', '🐂', '🐄', '🐎', '🐖',
+      '🐏', '🐑', '🦙', '🐐', '🦌', '🐕', '🐩', '🦮', '🐈', '🐓'
+    ];
+
+    const dataHandler = {
+      onDataChanged(data) {
+        allData = data;
+        renderVideos();
+      }
+    };
+
+    async function initializeApp() {
+      const initResult = await window.dataSdk.init(dataHandler);
+      if (!initResult.isOk) {
+        console.error("Failed to initialize data SDK");
+      }
+    }
+
+    async function onConfigChange(config) {
+      const root = document.documentElement;
+      
+      // Update CSS variables
+      root.style.setProperty('--background-color', config.background_color || defaultConfig.background_color);
+      root.style.setProperty('--container-color', config.container_color || defaultConfig.container_color);
+      root.style.setProperty('--text-color', config.text_color || defaultConfig.text_color);
+      root.style.setProperty('--secondary-text-color', config.secondary_text_color || defaultConfig.secondary_text_color);
+      root.style.setProperty('--button-color', config.button_color || defaultConfig.button_color);
+      
+      // Calculate hover/active colors based on button color
+      const buttonColor = config.button_color || defaultConfig.button_color;
+      root.style.setProperty('--button-hover-color', adjustColorBrightness(buttonColor, -15));
+      root.style.setProperty('--button-active-color', adjustColorBrightness(buttonColor, -30));
+      
+      // Update font family
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'Roboto, Arial, sans-serif';
+      root.style.setProperty('--font-family', `${customFont}, ${baseFontStack}`);
+      
+      // Update font size
+      const baseSize = config.font_size || defaultConfig.font_size;
+      root.style.setProperty('--font-size-base', `${baseSize}px`);
+
+      // Update text content
+      const pageTitle = document.getElementById('page-title');
+      if (pageTitle) {
+        pageTitle.textContent = config.page_title || defaultConfig.page_title;
+      }
+      const usernameLabel = document.getElementById('username-label');
+      if (usernameLabel) {
+        usernameLabel.textContent = config.username_label || defaultConfig.username_label;
+      }
+      const passwordLabel = document.getElementById('password-label');
+      if (passwordLabel) {
+        passwordLabel.textContent = config.password_label || defaultConfig.password_label;
+      }
+      const rememberText = document.getElementById('remember-text');
+      if (rememberText) {
+        rememberText.textContent = config.remember_text || defaultConfig.remember_text;
+      }
+      const buttonText = document.getElementById('button-text');
+      if (buttonText) {
+        buttonText.textContent = config.button_text || defaultConfig.button_text;
+      }
+      const signupTextEl = document.getElementById('signup-text');
+      if (signupTextEl) {
+        signupTextEl.textContent = config.signup_text || defaultConfig.signup_text;
+      }
+      const showSignup = document.getElementById('show-signup');
+      if (showSignup) {
+        showSignup.textContent = config.signup_button || defaultConfig.signup_button;
+      }
+    }
+
+    // Helper function to adjust color brightness
+    function adjustColorBrightness(color, percent) {
+      const num = parseInt(color.replace("#",""), 16);
+      const amt = Math.round(2.55 * percent);
+      const R = Math.max(0, Math.min(255, (num >> 16) + amt));
+      const G = Math.max(0, Math.min(255, (num >> 8 & 0x00FF) + amt));
+      const B = Math.max(0, Math.min(255, (num & 0x0000FF) + amt));
+      return "#" + (0x1000000 + (R << 16) + (G << 8) + B).toString(16).slice(1);
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.container_color || defaultConfig.container_color,
+            set: (value) => {
+              config.container_color = value;
+              window.elementSdk.setConfig({ container_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.button_color || defaultConfig.button_color,
+            set: (value) => {
+              config.button_color = value;
+              window.elementSdk.setConfig({ button_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_text_color || defaultConfig.secondary_text_color,
+            set: (value) => {
+              config.secondary_text_color = value;
+              window.elementSdk.setConfig({ secondary_text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["page_title", config.page_title || defaultConfig.page_title],
+        ["username_label", config.username_label || defaultConfig.username_label],
+        ["password_label", config.password_label || defaultConfig.password_label],
+        ["remember_text", config.remember_text || defaultConfig.remember_text],
+        ["button_text", config.button_text || defaultConfig.button_text],
+        ["signup_text", config.signup_text || defaultConfig.signup_text],
+        ["signup_button", config.signup_button || defaultConfig.signup_button]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    initializeApp();
+
+    // Check if user should be remembered on page load
+    (function() {
+      const rememberMe = localStorage.getItem('rememberMe');
+      const savedUsername = localStorage.getItem('savedUsername');
+      
+      if (rememberMe === 'true' && savedUsername) {
+        currentUsername = savedUsername;
+        
+        // Load user profile from database
+        setTimeout(() => {
+          const userExists = allData.find(item => 
+            item.username && item.password && item.username === savedUsername
+          );
+          if (userExists) {
+            currentUserAvatar = userExists.userAvatar || savedUsername.charAt(0).toUpperCase();
+            currentUserAvatarColor = userExists.userAvatarColor || '#1a73e8';
+          }
+        }, 500);
+        
+        // Auto-login: go directly to home screen
+        document.getElementById('home-screen').classList.add('visible');
+        setTimeout(() => renderVideos(), 100);
+      } else {
+        // Show login screen
+        document.querySelector('.login-wrapper').classList.add('visible');
+      }
+    })();
+
+    // Screen navigation
+    document.getElementById('show-signup').addEventListener('click', () => {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('signup-screen').classList.remove('hidden');
+    });
+
+    document.getElementById('back-to-login').addEventListener('click', () => {
+      document.getElementById('signup-screen').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('message-container').innerHTML = '';
+      document.getElementById('signup-form').reset();
+    });
+
+    // Login form
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const rememberCheckbox = document.getElementById('remember');
+      const loginContainer = document.querySelector('.login-container');
+
+      // Check if user exists in database (only check user records, not video records)
+      const userExists = allData.find(item => 
+        item.username && item.password && 
+        item.username === username && item.password === password
+      );
+
+      // Remove any existing error messages
+      const existingError = loginContainer.querySelector('.message.error');
+      if (existingError) {
+        existingError.remove();
+      }
+
+      if (!userExists) {
+        // Show error message
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'message error';
+        errorMessage.textContent = 'Usuário ou senha inválidos!';
+        errorMessage.style.marginBottom = '16px';
+        loginContainer.insertBefore(errorMessage, document.getElementById('login-screen'));
+        
+        // Remove error message after 4 seconds
+        setTimeout(() => {
+          errorMessage.remove();
+        }, 4000);
+        return;
+      }
+
+      // Valid login - proceed
+      currentUsername = username;
+      
+      // Load user profile
+      currentUserAvatar = userExists.userAvatar || username.charAt(0).toUpperCase();
+      currentUserAvatarColor = userExists.userAvatarColor || '#1a73e8';
+      
+      // Save remember me preference
+      if (rememberCheckbox.checked) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('savedUsername', username);
+      } else {
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('savedUsername');
+      }
+
+      // Smooth transition to home screen
+      document.querySelector('.login-wrapper').classList.remove('visible');
+      document.getElementById('home-screen').classList.add('visible');
+      setTimeout(() => renderVideos(), 100);
+    });
+
+    // Sidebar functionality
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const menuButton = document.querySelector('.menu-button');
+
+    if (menuButton) {
+      menuButton.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('visible');
+      });
+    }
+
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('visible');
+      });
+    }
+
+    // Settings modal
+    const settingsButton = document.getElementById('settings-button');
+    const settingsModal = document.getElementById('settings-modal');
+    const closeSettings = document.getElementById('close-settings');
+    const cancelSettings = document.getElementById('cancel-settings');
+    const saveSettings = document.getElementById('save-settings');
+    const changeAvatarButton = document.getElementById('change-avatar-button');
+    const avatarModal = document.getElementById('avatar-modal');
+    const closeAvatarModal = document.getElementById('close-avatar-modal');
+    
+    let tempAvatar = null;
+    let tempAvatarColor = null;
+    
+    if (settingsButton) {
+      settingsButton.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('visible');
+        
+        // Load current profile settings
+        tempAvatar = currentUserAvatar;
+        tempAvatarColor = currentUserAvatarColor;
+        
+        // Update display
+        const avatarDisplay = document.getElementById('current-avatar-display');
+        avatarDisplay.textContent = currentUserAvatar;
+        avatarDisplay.style.backgroundColor = currentUserAvatarColor;
+        
+        // Select current color
+        document.querySelectorAll('.avatar-color-option').forEach(option => {
+          if (option.dataset.color === currentUserAvatarColor) {
+            option.classList.add('selected');
+          } else {
+            option.classList.remove('selected');
+          }
+        });
+        
+        settingsModal.classList.add('visible');
+      });
+    }
+    
+    if (closeSettings) {
+      closeSettings.addEventListener('click', () => {
+        settingsModal.classList.remove('visible');
+      });
+    }
+    
+    if (cancelSettings) {
+      cancelSettings.addEventListener('click', () => {
+        settingsModal.classList.remove('visible');
+      });
+    }
+    
+    if (changeAvatarButton) {
+      changeAvatarButton.addEventListener('click', () => {
+        loadAvatars();
+        avatarModal.classList.add('visible');
+      });
+    }
+    
+    if (closeAvatarModal) {
+      closeAvatarModal.addEventListener('click', () => {
+        avatarModal.classList.remove('visible');
+      });
+    }
+    
+    // Avatar color selection
+    document.querySelectorAll('.avatar-color-option').forEach(option => {
+      option.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-color-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        tempAvatarColor = option.dataset.color;
+        
+        const avatarDisplay = document.getElementById('current-avatar-display');
+        avatarDisplay.style.backgroundColor = tempAvatarColor;
+      });
+    });
+    
+    // Load avatars
+    function loadAvatars() {
+      const avatarGrid = document.getElementById('avatar-grid');
+      avatarGrid.innerHTML = '';
+      
+      availableAvatars.forEach(emoji => {
+        const avatarItem = document.createElement('div');
+        avatarItem.className = 'avatar-item';
+        avatarItem.textContent = emoji;
+        
+        if (emoji === tempAvatar) {
+          avatarItem.classList.add('selected');
+        }
+        
+        avatarItem.addEventListener('click', () => {
+          document.querySelectorAll('.avatar-item').forEach(item => item.classList.remove('selected'));
+          avatarItem.classList.add('selected');
+          tempAvatar = emoji;
+          
+          // Update display
+          const avatarDisplay = document.getElementById('current-avatar-display');
+          avatarDisplay.textContent = emoji;
+          
+          // Close modal
+          avatarModal.classList.remove('visible');
+        });
+        
+        avatarGrid.appendChild(avatarItem);
+      });
+    }
+    
+    // Save settings
+    if (saveSettings) {
+      saveSettings.addEventListener('click', async () => {
+        saveSettings.disabled = true;
+        saveSettings.textContent = 'Salvando...';
+        
+        // Find user in database
+        const userRecord = allData.find(item => 
+          item.username && item.password && item.username === currentUsername
+        );
+        
+        if (userRecord) {
+          // Update user profile
+          const updatedUser = { 
+            ...userRecord, 
+            userAvatar: tempAvatar,
+            userAvatarColor: tempAvatarColor
+          };
+          
+          await window.dataSdk.update(updatedUser);
+          
+          // Update current user data
+          currentUserAvatar = tempAvatar;
+          currentUserAvatarColor = tempAvatarColor;
+          
+          // Update all videos by this user
+          const userVideos = allData.filter(item => 
+            item.videoTitle && item.videoAuthor === currentUsername
+          );
+          
+          for (const video of userVideos) {
+            const updatedVideo = {
+              ...video,
+              videoAuthorAvatar: tempAvatar,
+              videoAuthorAvatarColor: tempAvatarColor
+            };
+            await window.dataSdk.update(updatedVideo);
+          }
+        }
+        
+        saveSettings.disabled = false;
+        saveSettings.textContent = 'Salvar Alterações';
+        settingsModal.classList.remove('visible');
+      });
+    }
+
+    // Sidebar items
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    sidebarItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        if (index === 2) {
+          // Settings - handled above
+          return;
+        }
+        
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        // Close sidebar
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('visible');
+        
+        // Navigate based on sidebar item
+        if (index === 0) {
+          // Home
+          document.getElementById('clips-page').classList.remove('visible');
+          document.getElementById('watch-page').classList.remove('visible');
+          document.getElementById('home-screen').classList.add('visible');
+        } else if (index === 1) {
+          // Clips
+          openClipsPage();
+        }
+      });
+    });
+
+    // Category filtering
+    function setupCategoryFilters() {
+      const categoryChips = document.querySelectorAll('.category-chip');
+      categoryChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          categoryChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          selectedCategory = chip.dataset.category;
+          renderVideos();
+        });
+      });
+    }
+
+    // Format time ago
+    function formatTimeAgo(publishedAt) {
+      const now = new Date();
+      const published = new Date(publishedAt);
+      const diffMs = now - published;
+      const diffSecs = Math.floor(diffMs / 1000);
+      const diffMins = Math.floor(diffSecs / 60);
+      const diffHours = Math.floor(diffMins / 60);
+      const diffDays = Math.floor(diffHours / 24);
+      const diffMonths = Math.floor(diffDays / 30);
+      const diffYears = Math.floor(diffDays / 365);
+
+      if (diffSecs < 60) return 'agora mesmo';
+      if (diffMins < 60) return `há ${diffMins} minuto${diffMins > 1 ? 's' : ''}`;
+      if (diffHours < 24) return `há ${diffHours} hora${diffHours > 1 ? 's' : ''}`;
+      if (diffDays < 30) return `há ${diffDays} dia${diffDays > 1 ? 's' : ''}`;
+      if (diffMonths < 12) return `há ${diffMonths} ${diffMonths > 1 ? 'meses' : 'mês'}`;
+      return `há ${diffYears} ano${diffYears > 1 ? 's' : ''}`;
+    }
+
+    // Format duration
+    function formatDuration(totalSeconds) {
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      if (hours > 0) {
+        return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+      return `${minutes}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    // Format views
+    function formatViews(views) {
+      if (views === 0) return '0 visualizações';
+      if (views === 1) return '1 visualização';
+      if (views < 1000) return `${views} visualizações`;
+      if (views < 1000000) return `${(views / 1000).toFixed(1)}K visualizações`;
+      return `${(views / 1000000).toFixed(1)}M visualizações`;
+    }
+
+    // Render videos
+    function renderVideos() {
+      const videosGrid = document.getElementById('videos-grid');
+      const categoriesSection = document.getElementById('categories-section');
+      
+      // Filter videos (only records that have videoTitle and are not clips)
+      let videos = allData.filter(item => item.videoTitle && item.videoType !== 'clip');
+      
+      if (videos.length === 0) {
+        categoriesSection.classList.add('hidden');
+        videosGrid.innerHTML = '';
+        return;
+      }
+
+      // Show categories section
+      categoriesSection.classList.remove('hidden');
+      setupCategoryFilters();
+
+      // Filter by selected category
+      if (selectedCategory !== 'all') {
+        videos = videos.filter(video => video.videoCategory === selectedCategory);
+      }
+
+      // Sort by published date (newest first)
+      videos.sort((a, b) => new Date(b.videoPublishedAt) - new Date(a.videoPublishedAt));
+
+      // Render video cards
+      videosGrid.innerHTML = videos.map(video => {
+        const authorAvatar = video.videoAuthorAvatar || video.videoAuthor.charAt(0).toUpperCase();
+        const authorAvatarColor = video.videoAuthorAvatarColor || '#1a73e8';
+        
+        return `
+        <div class="video-card" data-video-id="${video.__backendId}">
+          <div class="video-thumbnail-container">
+            <img src="${video.videoThumbnail}" alt="${video.videoTitle}">
+            <div class="video-duration">${formatDuration(video.videoDuration)}</div>
+          </div>
+          <div class="video-info" style="display: flex; gap: 12px;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background-color: ${authorAvatarColor}; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; flex-shrink: 0; color: white;">${authorAvatar}</div>
+            <div style="flex: 1; min-width: 0;">
+              <h3 class="video-title">${video.videoTitle}</h3>
+              <div class="video-metadata">
+                ${video.videoAuthor}<br>
+                ${formatViews(video.videoViews || 0)} • ${formatTimeAgo(video.videoPublishedAt)}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      }).join('');
+
+      // Add click handlers to video cards
+      const videoCards = videosGrid.querySelectorAll('.video-card');
+      videoCards.forEach(card => {
+        card.addEventListener('click', async () => {
+          const videoId = card.dataset.videoId;
+          const video = allData.find(item => item.__backendId === videoId);
+          
+          if (video) {
+            // Increment views
+            const updatedVideo = { ...video, videoViews: (video.videoViews || 0) + 1 };
+            await window.dataSdk.update(updatedVideo);
+            
+            // Open watch page
+            openWatchPage(videoId);
+          }
+        });
+      });
+    }
+
+    // Open watch page with video data
+    function openWatchPage(videoId) {
+      const video = allData.find(item => item.__backendId === videoId);
+      if (!video) return;
+
+      currentWatchingVideo = video;
+
+      // Hide home screen, show watch page
+      document.getElementById('home-screen').classList.remove('visible');
+      document.getElementById('watch-page').classList.add('visible');
+      
+      // Update watch page content
+      updateWatchPage(video);
+    }
+
+    // Update watch page with video data
+    function updateWatchPage(video) {
+      // Update thumbnail
+      document.getElementById('watch-thumbnail').src = video.videoThumbnail;
+      
+      // Update title
+      document.getElementById('watch-title').textContent = video.videoTitle;
+      
+      // Update channel info
+      const channelAvatar = document.getElementById('watch-channel-avatar');
+      const channelName = document.getElementById('watch-channel-name');
+      const authorAvatar = video.videoAuthorAvatar || video.videoAuthor.charAt(0).toUpperCase();
+      const authorAvatarColor = video.videoAuthorAvatarColor || '#1a73e8';
+      channelAvatar.textContent = authorAvatar;
+      channelAvatar.style.background = authorAvatarColor;
+      channelName.textContent = video.videoAuthor;
+      
+      // Update description
+      const descriptionHeader = document.getElementById('watch-description-header');
+      const descriptionText = document.getElementById('watch-description-text');
+      descriptionHeader.textContent = `${formatViews(video.videoViews || 0)} • ${formatTimeAgo(video.videoPublishedAt)}`;
+      descriptionText.textContent = video.videoDescription || 'Sem descrição';
+      
+      // Update like/dislike counts
+      document.getElementById('watch-like-count').textContent = video.videoLikes || 0;
+      document.getElementById('watch-dislike-count').textContent = video.videoDislikes || 0;
+      
+      // Update comment avatar
+      const commentAvatar = document.getElementById('watch-comment-avatar');
+      commentAvatar.textContent = currentUserAvatar;
+      commentAvatar.style.background = currentUserAvatarColor;
+      
+      // Reset user interactions UI
+      const videoKey = video.__backendId;
+      if (!userInteractions[videoKey]) {
+        userInteractions[videoKey] = { liked: false, disliked: false, subscribed: false };
+      }
+      
+      const likeButton = document.getElementById('watch-like-button');
+      const dislikeButton = document.getElementById('watch-dislike-button');
+      const subscribeButton = document.getElementById('watch-subscribe-button');
+      
+      // Update like button
+      if (userInteractions[videoKey].liked) {
+        likeButton.classList.add('liked');
+      } else {
+        likeButton.classList.remove('liked');
+      }
+      
+      // Update dislike button
+      if (userInteractions[videoKey].disliked) {
+        dislikeButton.classList.add('disliked');
+      } else {
+        dislikeButton.classList.remove('disliked');
+      }
+      
+      // Update subscribe button
+      if (userInteractions[videoKey].subscribed) {
+        subscribeButton.textContent = 'Inscrito';
+        subscribeButton.classList.add('subscribed');
+      } else {
+        subscribeButton.textContent = 'Inscrever-se';
+        subscribeButton.classList.remove('subscribed');
+      }
+      
+      // Render suggested videos (all videos except the current one)
+      renderSuggestedVideos(video.__backendId);
+    }
+
+    // Render suggested videos
+    function renderSuggestedVideos(currentVideoId) {
+      const suggestedVideosContainer = document.getElementById('suggested-videos');
+      
+      // Get all videos except the current one
+      let videos = allData.filter(item => item.videoTitle && item.__backendId !== currentVideoId);
+      
+      // Sort by published date (newest first)
+      videos.sort((a, b) => new Date(b.videoPublishedAt) - new Date(a.videoPublishedAt));
+      
+      // Render suggested video cards
+      suggestedVideosContainer.innerHTML = videos.map(video => `
+        <div class="suggested-video-card" data-video-id="${video.__backendId}">
+          <div class="suggested-thumbnail-container">
+            <img src="${video.videoThumbnail}" alt="${video.videoTitle}">
+            <div class="suggested-duration">${formatDuration(video.videoDuration)}</div>
+          </div>
+          <div class="suggested-video-info">
+            <h3 class="suggested-video-title">${video.videoTitle}</h3>
+            <div class="suggested-video-metadata">
+              ${video.videoAuthor}<br>
+              ${formatViews(video.videoViews || 0)}<br>
+              ${formatTimeAgo(video.videoPublishedAt)}
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+      // Add click handlers to suggested video cards
+      const suggestedCards = suggestedVideosContainer.querySelectorAll('.suggested-video-card');
+      suggestedCards.forEach(card => {
+        card.addEventListener('click', async () => {
+          const videoId = card.dataset.videoId;
+          const video = allData.find(item => item.__backendId === videoId);
+          
+          if (video) {
+            // Increment views
+            const updatedVideo = { ...video, videoViews: (video.videoViews || 0) + 1 };
+            await window.dataSdk.update(updatedVideo);
+            
+            // Update current watching video
+            currentWatchingVideo = updatedVideo;
+            
+            // Update watch page with new video
+            updateWatchPage(updatedVideo);
+            
+            // Scroll to top
+            document.getElementById('watch-page').scrollTop = 0;
+          }
+        });
+      });
+    }
+
+    // Watch page interactions
+    function setupWatchPageInteractions() {
+      // Like button
+      const likeButton = document.getElementById('watch-like-button');
+      likeButton.addEventListener('click', async () => {
+        if (!currentWatchingVideo) return;
+        
+        const videoKey = currentWatchingVideo.__backendId;
+        const wasLiked = userInteractions[videoKey].liked;
+        const wasDisliked = userInteractions[videoKey].disliked;
+        
+        let newLikes = currentWatchingVideo.videoLikes || 0;
+        let newDislikes = currentWatchingVideo.videoDislikes || 0;
+        
+        if (wasLiked) {
+          // Remove like
+          newLikes = Math.max(0, newLikes - 1);
+          userInteractions[videoKey].liked = false;
+          likeButton.classList.remove('liked');
+        } else {
+          // Add like
+          newLikes += 1;
+          userInteractions[videoKey].liked = true;
+          likeButton.classList.add('liked');
+          
+          // Remove dislike if present
+          if (wasDisliked) {
+            newDislikes = Math.max(0, newDislikes - 1);
+            userInteractions[videoKey].disliked = false;
+            document.getElementById('watch-dislike-button').classList.remove('disliked');
+          }
+        }
+        
+        // Update database
+        const updatedVideo = { ...currentWatchingVideo, videoLikes: newLikes, videoDislikes: newDislikes };
+        await window.dataSdk.update(updatedVideo);
+        currentWatchingVideo = updatedVideo;
+        
+        // Update UI
+        document.getElementById('watch-like-count').textContent = newLikes;
+        document.getElementById('watch-dislike-count').textContent = newDislikes;
+      });
+      
+      // Dislike button
+      const dislikeButton = document.getElementById('watch-dislike-button');
+      dislikeButton.addEventListener('click', async () => {
+        if (!currentWatchingVideo) return;
+        
+        const videoKey = currentWatchingVideo.__backendId;
+        const wasLiked = userInteractions[videoKey].liked;
+        const wasDisliked = userInteractions[videoKey].disliked;
+        
+        let newLikes = currentWatchingVideo.videoLikes || 0;
+        let newDislikes = currentWatchingVideo.videoDislikes || 0;
+        
+        if (wasDisliked) {
+          // Remove dislike
+          newDislikes = Math.max(0, newDislikes - 1);
+          userInteractions[videoKey].disliked = false;
+          dislikeButton.classList.remove('disliked');
+        } else {
+          // Add dislike
+          newDislikes += 1;
+          userInteractions[videoKey].disliked = true;
+          dislikeButton.classList.add('disliked');
+          
+          // Remove like if present
+          if (wasLiked) {
+            newLikes = Math.max(0, newLikes - 1);
+            userInteractions[videoKey].liked = false;
+            document.getElementById('watch-like-button').classList.remove('liked');
+          }
+        }
+        
+        // Update database
+        const updatedVideo = { ...currentWatchingVideo, videoLikes: newLikes, videoDislikes: newDislikes };
+        await window.dataSdk.update(updatedVideo);
+        currentWatchingVideo = updatedVideo;
+        
+        // Update UI
+        document.getElementById('watch-like-count').textContent = newLikes;
+        document.getElementById('watch-dislike-count').textContent = newDislikes;
+      });
+      
+      // Subscribe button
+      const subscribeButton = document.getElementById('watch-subscribe-button');
+      subscribeButton.addEventListener('click', () => {
+        if (!currentWatchingVideo) return;
+        
+        const videoKey = currentWatchingVideo.__backendId;
+        
+        if (userInteractions[videoKey].subscribed) {
+          // Unsubscribe
+          userInteractions[videoKey].subscribed = false;
+          subscribeButton.textContent = 'Inscrever-se';
+          subscribeButton.classList.remove('subscribed');
+        } else {
+          // Subscribe
+          userInteractions[videoKey].subscribed = true;
+          subscribeButton.textContent = 'Inscrito';
+          subscribeButton.classList.add('subscribed');
+        }
+      });
+      
+      // Comment input
+      const commentInput = document.getElementById('watch-comment-input');
+      const commentCancel = document.getElementById('watch-comment-cancel');
+      const commentSubmit = document.getElementById('watch-comment-submit');
+      
+      commentInput.addEventListener('input', () => {
+        commentSubmit.disabled = commentInput.value.trim() === '';
+      });
+      
+      commentCancel.addEventListener('click', () => {
+        commentInput.value = '';
+        commentInput.blur();
+        commentSubmit.disabled = true;
+      });
+      
+      commentSubmit.addEventListener('click', () => {
+        // For now, just clear the input (comments are not functional yet)
+        commentInput.value = '';
+        commentSubmit.disabled = true;
+      });
+      
+      // Logo click - return to home
+      const headerLogo = document.querySelector('.header-logo');
+      headerLogo.addEventListener('click', () => {
+        document.getElementById('watch-page').classList.remove('visible');
+        document.getElementById('home-screen').classList.add('visible');
+      });
+    }
+
+    setupWatchPageInteractions();
+
+    // Watch page header interactions (duplicate header)
+    const watchMenuButton = document.getElementById('watch-menu-button');
+    const watchHeaderLogo = document.getElementById('watch-header-logo');
+    const watchCreateButton = document.getElementById('watch-create-button');
+    const watchCreateDropdown = document.getElementById('watch-create-dropdown');
+    const watchUploadVideo = document.getElementById('watch-upload-video');
+
+    // Menu button in watch page
+    if (watchMenuButton) {
+      watchMenuButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('visible');
+      });
+    }
+
+    // Logo click in watch page - return to home
+    if (watchHeaderLogo) {
+      watchHeaderLogo.addEventListener('click', () => {
+        document.getElementById('watch-page').classList.remove('visible');
+        document.getElementById('home-screen').classList.add('visible');
+      });
+    }
+
+    // Create button dropdown in watch page
+    if (watchCreateButton && watchCreateDropdown) {
+      watchCreateButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        watchCreateDropdown.classList.toggle('visible');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (watchCreateButton && !watchCreateButton.contains(e.target) && !watchCreateDropdown.contains(e.target)) {
+          watchCreateDropdown.classList.remove('visible');
+        }
+      });
+    }
+
+    // Upload video from watch page
+    if (watchUploadVideo) {
+      watchUploadVideo.addEventListener('click', () => {
+        watchCreateDropdown.classList.remove('visible');
+        uploadScreen.classList.add('visible');
+      });
+    }
+
+    // Create dropdown functionality
+    const createButton = document.getElementById('create-button');
+    const createDropdown = document.getElementById('create-dropdown');
+    const uploadScreen = document.getElementById('upload-screen');
+
+    if (createButton && createDropdown) {
+      createButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        createDropdown.classList.toggle('visible');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!createButton.contains(e.target) && !createDropdown.contains(e.target)) {
+          createDropdown.classList.remove('visible');
+        }
+      });
+
+      // Close dropdown when clicking a dropdown item
+      const dropdownItems = createDropdown.querySelectorAll('.create-dropdown-item');
+      dropdownItems.forEach(item => {
+        item.addEventListener('click', () => {
+          createDropdown.classList.remove('visible');
+          uploadScreen.classList.add('visible');
+        });
+      });
+    }
+
+    // Upload screen functionality
+    let selectedThumbnail = null;
+    let selectedThumbnailUrl = null;
+    let selectedVideoType = 'video';
+
+    // Load thumbnails using Picsum with varied images
+    function loadThumbnails() {
+      const thumbnailGrid = document.getElementById('thumbnail-grid');
+      thumbnailGrid.innerHTML = '';
+      
+      // Using Picsum with different seed values for variety
+      const thumbnailSeeds = [
+        'nature', 'technology', 'abstract', 'architecture', 'people',
+        'animals', 'food', 'travel', 'sunset', 'ocean',
+        'mountains', 'city', 'flowers', 'space', 'art',
+        'music', 'sports', 'business', 'education', 'health',
+        'fashion', 'design', 'coding', 'gaming', 'fitness',
+        'science', 'history', 'culture', 'forest', 'desert',
+        'beach', 'skyline', 'vintage', 'modern', 'colorful',
+        'minimalist', 'landscape', 'portrait', 'street', 'wildlife'
+      ];
+
+      thumbnailSeeds.forEach((seed, index) => {
+        const thumbnailItem = document.createElement('div');
+        thumbnailItem.className = 'thumbnail-item';
+        const imgUrl = `https://picsum.photos/seed/${seed}/300/169`;
+        thumbnailItem.dataset.thumbnailUrl = imgUrl;
+        
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.alt = `Thumbnail ${index + 1}`;
+        
+        // Handle image load errors
+        img.onerror = function() {
+          this.src = `https://picsum.photos/300/169?random=${index}`;
+          this.alt = 'Thumbnail alternativa';
+        };
+        
+        const checkmark = document.createElement('div');
+        checkmark.className = 'thumbnail-checkmark';
+        checkmark.innerHTML = '✓';
+        
+        thumbnailItem.appendChild(img);
+        thumbnailItem.appendChild(checkmark);
+        
+        thumbnailItem.addEventListener('click', () => {
+          document.querySelectorAll('.thumbnail-item').forEach(item => {
+            item.classList.remove('selected');
+          });
+          thumbnailItem.classList.add('selected');
+          selectedThumbnail = seed;
+          selectedThumbnailUrl = imgUrl;
+          
+          // Update preview
+          const preview = document.getElementById('selected-thumbnail-preview');
+          const placeholder = document.getElementById('thumbnail-placeholder');
+          preview.src = imgUrl;
+          preview.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+          
+          // Close modal
+          document.getElementById('thumbnail-modal').classList.remove('visible');
+          
+          validateForm();
+        });
+        
+        thumbnailGrid.appendChild(thumbnailItem);
+      });
+    }
+
+    // Explore thumbnails button
+    const exploreThumbnailsButton = document.getElementById('explore-thumbnails-button');
+    const thumbnailModal = document.getElementById('thumbnail-modal');
+    const closeThumbnailModal = document.getElementById('close-thumbnail-modal');
+
+    if (exploreThumbnailsButton) {
+      exploreThumbnailsButton.addEventListener('click', () => {
+        thumbnailModal.classList.add('visible');
+        if (document.getElementById('thumbnail-grid').children.length === 0) {
+          loadThumbnails();
+        }
+      });
+    }
+
+    if (closeThumbnailModal) {
+      closeThumbnailModal.addEventListener('click', () => {
+        thumbnailModal.classList.remove('visible');
+      });
+    }
+
+    // Video type selection
+    const videoTypeVideo = document.getElementById('video-type-video');
+    const videoTypeClip = document.getElementById('video-type-clip');
+
+    if (videoTypeVideo && videoTypeClip) {
+      videoTypeVideo.addEventListener('click', () => {
+        if (!videoTypeVideo.classList.contains('disabled')) {
+          videoTypeVideo.classList.add('selected');
+          videoTypeClip.classList.remove('selected');
+          selectedVideoType = 'video';
+        }
+      });
+
+      videoTypeClip.addEventListener('click', () => {
+        if (!videoTypeClip.classList.contains('disabled')) {
+          videoTypeClip.classList.add('selected');
+          videoTypeVideo.classList.remove('selected');
+          selectedVideoType = 'clip';
+        }
+      });
+    }
+
+    // Duration validation
+    const durationMinutes = document.getElementById('duration-minutes');
+    const durationSeconds = document.getElementById('duration-seconds');
+
+    function checkDuration() {
+      const minutes = parseInt(durationMinutes.value) || 0;
+      const seconds = parseInt(durationSeconds.value) || 0;
+      const totalSeconds = minutes * 60 + seconds;
+
+      if (totalSeconds > 60) {
+        videoTypeClip.classList.add('disabled');
+        if (selectedVideoType === 'clip') {
+          videoTypeClip.classList.remove('selected');
+          videoTypeVideo.classList.add('selected');
+          selectedVideoType = 'video';
+        }
+      } else {
+        videoTypeClip.classList.remove('disabled');
+      }
+
+      validateForm();
+    }
+
+    if (durationMinutes && durationSeconds) {
+      durationMinutes.addEventListener('input', checkDuration);
+      durationSeconds.addEventListener('input', () => {
+        const value = parseInt(durationSeconds.value) || 0;
+        if (value > 59) {
+          durationSeconds.value = 59;
+        }
+        checkDuration();
+      });
+    }
+
+    // Form validation
+    function validateForm() {
+      const title = document.getElementById('video-title').value.trim();
+      const category = document.getElementById('video-category').value;
+      const minutes = parseInt(durationMinutes.value) || 0;
+      const seconds = parseInt(durationSeconds.value) || 0;
+      const totalSeconds = minutes * 60 + seconds;
+      const publishButton = document.getElementById('publish-button');
+
+      const isValid = title && selectedThumbnail && totalSeconds > 0 && category;
+      publishButton.disabled = !isValid;
+    }
+
+    const videoTitle = document.getElementById('video-title');
+    const videoCategory = document.getElementById('video-category');
+    if (videoTitle) {
+      videoTitle.addEventListener('input', validateForm);
+    }
+    if (videoCategory) {
+      videoCategory.addEventListener('change', validateForm);
+    }
+
+    // Close upload screen
+    const closeUploadButton = document.getElementById('close-upload');
+    const cancelUploadButton = document.getElementById('cancel-upload');
+
+    function closeUploadScreen() {
+      uploadScreen.classList.remove('visible');
+      document.getElementById('upload-form').reset();
+      selectedThumbnail = null;
+      selectedThumbnailUrl = null;
+      selectedVideoType = 'video';
+      
+      // Reset thumbnail preview
+      const preview = document.getElementById('selected-thumbnail-preview');
+      const placeholder = document.getElementById('thumbnail-placeholder');
+      preview.classList.add('hidden');
+      placeholder.classList.remove('hidden');
+      
+      document.querySelectorAll('.thumbnail-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      videoTypeVideo.classList.add('selected');
+      videoTypeClip.classList.remove('selected');
+      videoTypeClip.classList.remove('disabled');
+      validateForm();
+    }
+
+    if (closeUploadButton) {
+      closeUploadButton.addEventListener('click', closeUploadScreen);
+    }
+
+    if (cancelUploadButton) {
+      cancelUploadButton.addEventListener('click', closeUploadScreen);
+    }
+
+    // Publish button
+    const publishButton = document.getElementById('publish-button');
+    if (publishButton) {
+      publishButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const title = document.getElementById('video-title').value.trim();
+        const description = document.getElementById('video-description').value.trim();
+        const category = document.getElementById('video-category').value;
+        const minutes = parseInt(durationMinutes.value) || 0;
+        const seconds = parseInt(durationSeconds.value) || 0;
+        const totalSeconds = minutes * 60 + seconds;
+
+        publishButton.disabled = true;
+        publishButton.textContent = 'Publicando...';
+
+        const newVideo = {
+          videoTitle: title,
+          videoDescription: description,
+          videoThumbnail: selectedThumbnailUrl,
+          videoDuration: totalSeconds,
+          videoType: selectedVideoType,
+          videoCategory: category,
+          videoAuthor: currentUsername,
+          videoAuthorAvatar: currentUserAvatar,
+          videoAuthorAvatarColor: currentUserAvatarColor,
+          videoViews: 0,
+          videoPublishedAt: new Date().toISOString()
+        };
+
+        const result = await window.dataSdk.create(newVideo);
+
+        if (result.isOk) {
+          closeUploadScreen();
+          publishButton.textContent = 'Publicar';
+        } else {
+          publishButton.disabled = false;
+          publishButton.textContent = 'Publicar';
+          const uploadContent = document.querySelector('.upload-content');
+          const errorMessage = document.createElement('div');
+          errorMessage.className = 'message error';
+          errorMessage.textContent = 'Erro ao publicar vídeo. Tente novamente.';
+          errorMessage.style.marginBottom = '16px';
+          uploadContent.insertBefore(errorMessage, uploadContent.firstChild);
+          
+          setTimeout(() => {
+            errorMessage.remove();
+          }, 4000);
+        }
+      });
+    }
+
+    // Signup form
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('signup-username').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const confirm = document.getElementById('signup-confirm').value;
+      const messageContainer = document.getElementById('message-container');
+      const submitButton = document.getElementById('signup-button-text');
+
+      messageContainer.innerHTML = '';
+
+      if (password !== confirm) {
+        messageContainer.innerHTML = '<div class="message error">As senhas não coincidem!</div>';
+        return;
+      }
+
+      if (password.length < 6) {
+        messageContainer.innerHTML = '<div class="message error">A senha deve ter pelo menos 6 caracteres!</div>';
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Criando...';
+
+      const newUser = {
+        username: username,
+        email: email,
+        password: password,
+        createdAt: new Date().toISOString()
+      };
+
+      const result = await window.dataSdk.create(newUser);
+
+      if (result.isOk) {
+        // Clear signup form
+        document.getElementById('signup-form').reset();
+        messageContainer.innerHTML = '';
+        
+        // Return to login screen immediately
+        document.getElementById('signup-screen').classList.add('hidden');
+        document.getElementById('login-screen').classList.remove('hidden');
+        
+        // Show success message on login screen
+        const loginContainer = document.querySelector('.login-container');
+        const successMessage = document.createElement('div');
+        successMessage.className = 'message success';
+        successMessage.textContent = 'Conta criada com sucesso! Faça login para continuar.';
+        successMessage.style.marginBottom = '16px';
+        loginContainer.insertBefore(successMessage, document.getElementById('login-screen'));
+        
+        // Remove success message after 4 seconds
+        setTimeout(() => {
+          successMessage.remove();
+        }, 4000);
+      } else {
+        messageContainer.innerHTML = '<div class="message error">Erro ao criar conta. Tente novamente.</div>';
+      }
+
+      submitButton.disabled = false;
+      submitButton.textContent = 'Criar conta';
+    });
+
+    // Clips functionality
+    let clipInteractions = {}; // Store likes, dislikes, subscriptions per clip
+    let currentClipIndex = 0;
+    let clipsData = [];
+
+    function openClipsPage() {
+      // Get all clips
+      clipsData = allData.filter(item => item.videoTitle && item.videoType === 'clip');
+      
+      if (clipsData.length === 0) {
+        // No clips available - show message
+        return;
+      }
+      
+      // Shuffle clips for random order
+      clipsData = shuffleArray([...clipsData]);
+      
+      // Hide other screens
+      document.getElementById('home-screen').classList.remove('visible');
+      document.getElementById('watch-page').classList.remove('visible');
+      
+      // Show clips page
+      document.getElementById('clips-page').classList.add('visible');
+      
+      // Render clips
+      renderClips();
+      
+      // Reset to first clip
+      currentClipIndex = 0;
+      const clipsContainer = document.getElementById('clips-container');
+      clipsContainer.scrollTop = 0;
+    }
+
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function renderClips() {
+      const clipsContainer = document.getElementById('clips-container');
+      
+      clipsContainer.innerHTML = clipsData.map((clip, index) => {
+        const clipKey = clip.__backendId;
+        if (!clipInteractions[clipKey]) {
+          clipInteractions[clipKey] = { liked: false, disliked: false, subscribed: false };
+        }
+        
+        const authorAvatar = clip.videoAuthorAvatar || clip.videoAuthor.charAt(0).toUpperCase();
+        const authorAvatarColor = clip.videoAuthorAvatarColor || '#1a73e8';
+        
+        return `
+          <div class="clip-item" data-clip-index="${index}" data-clip-id="${clip.__backendId}">
+            <div class="clip-video-container">
+              <img class="clip-thumbnail" src="${clip.videoThumbnail}" alt="${clip.videoTitle}">
+              <div class="clip-unavailable-overlay">
+                O vídeo não está disponível por causa de limitações do site
+              </div>
+            </div>
+            
+            <!-- Clip Info -->
+            <div class="clip-info">
+              <div class="clip-author-section">
+                <div class="clip-author-avatar" style="background: ${authorAvatarColor};">${authorAvatar}</div>
+                <div class="clip-author-info">
+                  <div class="clip-author-name">${clip.videoAuthor}</div>
+                </div>
+                <button class="clip-subscribe-button ${clipInteractions[clipKey].subscribed ? 'subscribed' : ''}" data-clip-id="${clip.__backendId}">
+                  ${clipInteractions[clipKey].subscribed ? 'Inscrito' : 'Inscrever-se'}
+                </button>
+              </div>
+              <div class="clip-title">${clip.videoTitle}</div>
+            </div>
+            
+            <!-- Clip Actions -->
+            <div class="clip-sidebar">
+              <button class="clip-action-button ${clipInteractions[clipKey].liked ? 'active' : ''}" data-action="like" data-clip-id="${clip.__backendId}">
+                <div class="clip-action-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="${clipInteractions[clipKey].liked ? 'currentColor' : 'none'}">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <span class="clip-action-count">${clip.videoLikes || 0}</span>
+              </button>
+              
+              <button class="clip-action-button ${clipInteractions[clipKey].disliked ? 'active' : ''}" data-action="dislike" data-clip-id="${clip.__backendId}">
+                <div class="clip-action-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <span class="clip-action-count">${clip.videoDislikes || 0}</span>
+              </button>
+              
+              <button class="clip-action-button" data-action="comment" data-clip-id="${clip.__backendId}">
+                <div class="clip-action-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <span class="clip-action-count">0</span>
+              </button>
+            </div>
+            
+            ${index === 0 ? '<div class="clip-navigation-hint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M19 12l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deslize para ver mais</div>' : ''}
+          </div>
+        `;
+      }).join('');
+      
+      // Setup clip interactions
+      setupClipInteractions();
+    }
+
+    function setupClipInteractions() {
+      // Subscribe buttons
+      const subscribeButtons = document.querySelectorAll('.clip-subscribe-button');
+      subscribeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const clipId = button.dataset.clipId;
+          
+          if (clipInteractions[clipId].subscribed) {
+            clipInteractions[clipId].subscribed = false;
+            button.textContent = 'Inscrever-se';
+            button.classList.remove('subscribed');
+          } else {
+            clipInteractions[clipId].subscribed = true;
+            button.textContent = 'Inscrito';
+            button.classList.add('subscribed');
+          }
+        });
+      });
+      
+      // Action buttons (like, dislike, comment)
+      const actionButtons = document.querySelectorAll('.clip-action-button');
+      actionButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const action = button.dataset.action;
+          const clipId = button.dataset.clipId;
+          
+          if (action === 'comment') {
+            // Open comment modal
+            document.getElementById('clip-comment-modal').classList.add('visible');
+            const clipCommentAvatar = document.getElementById('clip-comment-avatar');
+            clipCommentAvatar.textContent = currentUserAvatar;
+            clipCommentAvatar.style.background = currentUserAvatarColor;
+            return;
+          }
+          
+          const clip = clipsData.find(c => c.__backendId === clipId);
+          if (!clip) return;
+          
+          let newLikes = clip.videoLikes || 0;
+          let newDislikes = clip.videoDislikes || 0;
+          
+          if (action === 'like') {
+            const wasLiked = clipInteractions[clipId].liked;
+            const wasDisliked = clipInteractions[clipId].disliked;
+            
+            if (wasLiked) {
+              newLikes = Math.max(0, newLikes - 1);
+              clipInteractions[clipId].liked = false;
+              button.classList.remove('active');
+              button.querySelector('svg path').setAttribute('fill', 'none');
+            } else {
+              newLikes += 1;
+              clipInteractions[clipId].liked = true;
+              button.classList.add('active');
+              button.querySelector('svg path').setAttribute('fill', 'currentColor');
+              
+              if (wasDisliked) {
+                newDislikes = Math.max(0, newDislikes - 1);
+                clipInteractions[clipId].disliked = false;
+                const dislikeButton = document.querySelector(`[data-action="dislike"][data-clip-id="${clipId}"]`);
+                dislikeButton.classList.remove('active');
+              }
+            }
+          } else if (action === 'dislike') {
+            const wasLiked = clipInteractions[clipId].liked;
+            const wasDisliked = clipInteractions[clipId].disliked;
+            
+            if (wasDisliked) {
+              newDislikes = Math.max(0, newDislikes - 1);
+              clipInteractions[clipId].disliked = false;
+              button.classList.remove('active');
+            } else {
+              newDislikes += 1;
+              clipInteractions[clipId].disliked = true;
+              button.classList.add('active');
+              
+              if (wasLiked) {
+                newLikes = Math.max(0, newLikes - 1);
+                clipInteractions[clipId].liked = false;
+                const likeButton = document.querySelector(`[data-action="like"][data-clip-id="${clipId}"]`);
+                likeButton.classList.remove('active');
+                likeButton.querySelector('svg path').setAttribute('fill', 'none');
+              }
+            }
+          }
+          
+          // Update database
+          const updatedClip = { ...clip, videoLikes: newLikes, videoDislikes: newDislikes };
+          await window.dataSdk.update(updatedClip);
+          
+          // Update local data
+          const clipIndex = clipsData.findIndex(c => c.__backendId === clipId);
+          if (clipIndex !== -1) {
+            clipsData[clipIndex] = updatedClip;
+          }
+          
+          // Update UI
+          button.querySelector('.clip-action-count').textContent = action === 'like' ? newLikes : newDislikes;
+        });
+      });
+    }
+
+    // Clips back button
+    const clipsBackButton = document.getElementById('clips-back-button');
+    if (clipsBackButton) {
+      clipsBackButton.addEventListener('click', () => {
+        document.getElementById('clips-page').classList.remove('visible');
+        document.getElementById('home-screen').classList.add('visible');
+      });
+    }
+
+    // Clip comment modal
+    const clipCommentModal = document.getElementById('clip-comment-modal');
+    const clipCommentClose = document.getElementById('clip-comment-close');
+    const clipCommentInput = document.getElementById('clip-comment-input');
+    const clipCommentSend = document.getElementById('clip-comment-send');
+
+    if (clipCommentClose) {
+      clipCommentClose.addEventListener('click', () => {
+        clipCommentModal.classList.remove('visible');
+        clipCommentInput.value = '';
+        clipCommentSend.disabled = true;
+      });
+    }
+
+    if (clipCommentInput) {
+      clipCommentInput.addEventListener('input', () => {
+        clipCommentSend.disabled = clipCommentInput.value.trim() === '';
+      });
+    }
+
+    if (clipCommentSend) {
+      clipCommentSend.addEventListener('click', () => {
+        clipCommentInput.value = '';
+        clipCommentSend.disabled = true;
+      });
+    }
+  </script>
+  <script>
+  // Custom local user storage and login/sign-up logic.
+  // Utility to compute SHA-256 hash for password encryption.
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+  // Load existing users from localStorage or use an empty array.
+  let storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+  // Override sign‑up behaviour: store user locally and enforce basic validation.
+  document.getElementById('signup-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const username = document.getElementById('signup-username').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const password = document.getElementById('signup-password').value;
+    const confirm = document.getElementById('signup-confirm').value;
+    const messageContainer = document.getElementById('message-container');
+    const submitButton = document.getElementById('signup-button-text');
+    messageContainer.innerHTML = '';
+    // Validate password confirmation and length.
+    if (password !== confirm) {
+      messageContainer.innerHTML = '<div class="message error">As senhas não coincidem!</div>';
+      return;
+    }
+    if (password.length < 6) {
+      messageContainer.innerHTML = '<div class="message error">A senha deve ter pelo menos 6 caracteres!</div>';
+      return;
+    }
+    submitButton.disabled = true;
+    submitButton.textContent = 'Criando...';
+    // Prevent duplicate usernames.
+    if (storedUsers.find((u) => u.username === username)) {
+      messageContainer.innerHTML = '<div class="message error">Nome de usuário já existe!</div>';
+      submitButton.disabled = false;
+      submitButton.textContent = 'Criar conta';
+      return;
+    }
+    // Hash the password before storing.
+    const hashed = await hashPassword(password);
+    const newUser = {
+      username: username,
+      email: email,
+      password: hashed,
+      createdAt: new Date().toISOString(),
+    };
+    storedUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(storedUsers));
+    allData.push(newUser);
+    document.getElementById('signup-form').reset();
+    // Go back to login screen and show success message.
+    document.getElementById('signup-screen').classList.add('hidden');
+    document.getElementById('login-screen').classList.remove('hidden');
+    const loginContainer = document.querySelector('.login-container');
+    const successMessage = document.createElement('div');
+    successMessage.className = 'message success';
+    successMessage.textContent = 'Conta criada com sucesso! Faça login para continuar.';
+    successMessage.style.marginBottom = '16px';
+    loginContainer.insertBefore(successMessage, document.getElementById('login-screen'));
+    setTimeout(() => {
+      successMessage.remove();
+    }, 4000);
+    submitButton.disabled = false;
+    submitButton.textContent = 'Criar conta';
+  });
+  // Override login behaviour: check hashed password against stored users.
+  document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const rememberCheckbox = document.getElementById('remember');
+    const loginContainer = document.querySelector('.login-container');
+    // Remove existing error messages if any.
+    const existingError = loginContainer.querySelector('.message.error');
+    if (existingError) {
+      existingError.remove();
+    }
+    const hashed = await hashPassword(password);
+    const userExists = storedUsers.find((u) => u.username === username && u.password === hashed);
+    if (!userExists) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message error';
+      errorMessage.textContent = 'Usuário ou senha inválidos!';
+      errorMessage.style.marginBottom = '16px';
+      loginContainer.insertBefore(errorMessage, document.getElementById('login-screen'));
+      setTimeout(() => {
+        errorMessage.remove();
+      }, 4000);
+      return;
+    }
+    currentUsername = username;
+    currentUserAvatar = userExists.userAvatar || username.charAt(0).toUpperCase();
+    currentUserAvatarColor = userExists.userAvatarColor || '#1a73e8';
+    if (rememberCheckbox.checked) {
+      localStorage.setItem('rememberMe', 'true');
+      localStorage.setItem('savedUsername', username);
+    } else {
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('savedUsername');
+    }
+    document.querySelector('.login-wrapper').classList.remove('visible');
+    document.getElementById('home-screen').classList.add('visible');
+    setTimeout(() => renderVideos(), 100);
+  });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b42feb7b5622754',t:'MTc2Njc3NzQ1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
