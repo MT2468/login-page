@@ -5968,6 +5968,23 @@
       openWatchPage(updatedVideo.__backendId);
     }
 
+    function ensureVideoId(video) {
+      if (!video.__backendId) {
+        const fallbackId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : `vid-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        video.__backendId = fallbackId;
+
+        const index = allData.findIndex(item => item === video);
+        if (index !== -1) {
+          allData[index] = video;
+        }
+        persistLocalVideo(video);
+      }
+
+      return video.__backendId;
+    }
+
     // Render videos
     function renderVideos() {
       const videosGrid = document.getElementById('videos-grid');
@@ -6000,12 +6017,13 @@
 
       // Render video cards
       videosGrid.innerHTML = videos.map(video => {
+        const stableId = ensureVideoId(video);
         const authorAvatar = video.videoAuthorAvatar || video.videoAuthor.charAt(0).toUpperCase();
         const authorAvatarColor = video.videoAuthorAvatarColor || '#1a73e8';
         const optimizedThumb = optimizeThumbnail(video.videoThumbnail);
 
         return `
-        <div class="video-card" data-video-id="${video.__backendId}">
+        <div class="video-card" data-video-id="${stableId}">
           <div class="video-thumbnail-container">
             <img src="${optimizedThumb}" alt="${video.videoTitle}" loading="lazy" decoding="async" sizes="(max-width: 640px) 240px, 360px">
             <div class="video-duration">${formatDuration(video.videoDuration)}</div>
@@ -6140,7 +6158,12 @@
       const suggestedVideosContainer = document.getElementById('suggested-videos');
       
       // Get all videos except the current one
-      let videos = allData.filter(item => item.videoTitle && item.__backendId !== currentVideoId);
+      let videos = allData
+        .map(item => {
+          ensureVideoId(item);
+          return item;
+        })
+        .filter(item => item.videoTitle && item.__backendId !== currentVideoId);
       
       // Sort by published date (newest first)
       videos.sort((a, b) => new Date(b.videoPublishedAt) - new Date(a.videoPublishedAt));
